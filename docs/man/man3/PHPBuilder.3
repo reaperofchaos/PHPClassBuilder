@@ -1,0 +1,340 @@
+.TH "PHPBuilder" 3 "Wed Aug 25 2021" "PHPClassBuilder" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+PHPBuilder
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <PHPBuilder\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBPHPBuilder\fP ()"
+.br
+.ti -1c
+.RI "\fBPHPBuilder\fP (std::string className, std::vector< std::string > Fields, std::string tableName)"
+.br
+.ti -1c
+.RI "std::string \fBgetClassName\fP ()"
+.br
+.ti -1c
+.RI "std::vector< std::string > \fBgetFields\fP ()"
+.br
+.ti -1c
+.RI "std::string \fBgetTableName\fP ()"
+.br
+.ti -1c
+.RI "std::string \fBgetFileName\fP ()"
+.br
+.ti -1c
+.RI "std::vector< std::string > \fBcheckIfLineIsTooLong\fP (std::string line)"
+.br
+.ti -1c
+.RI "void \fBcreateMethodComment\fP (std::string Description, std::string DetailedDescription, std::vector< std::pair< std::string, std::string > > Params, std::string returnType)"
+.br
+.ti -1c
+.RI "void \fBcreateClassComment\fP ()"
+.br
+.ti -1c
+.RI "void \fBcreateConstructor\fP ()"
+.br
+.ti -1c
+.RI "void \fBcreateCheckIfExists\fP ()"
+.br
+.ti -1c
+.RI "void \fBcreateGetIfExists\fP ()"
+.br
+.ti -1c
+.RI "void \fBcreateBindings\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetObjectPropertiesFromQuery\fP ()"
+.br
+.ti -1c
+.RI "void \fBsanitizeFields\fP ()"
+.br
+.ti -1c
+.RI "void \fBcreateRead\fP ()"
+.br
+.ti -1c
+.RI "void \fBcreateReadOne\fP ()"
+.br
+.ti -1c
+.RI "void \fBcreateReadPaging\fP ()"
+.br
+.ti -1c
+.RI "void \fBcreateCount\fP ()"
+.br
+.ti -1c
+.RI "void \fBcreateInsert\fP ()"
+.br
+.ti -1c
+.RI "void \fBcreateUpdate\fP ()"
+.br
+.ti -1c
+.RI "void \fBcreateRemove\fP ()"
+.br
+.ti -1c
+.RI "std::string \fBstringToLower\fP (std::string str)"
+.br
+.ti -1c
+.RI "void \fBclosing\fP ()"
+.br
+.ti -1c
+.RI "void \fBcreateClassFile\fP ()"
+.br
+.ti -1c
+.RI "void \fBopening\fP ()"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "PHPBuilder::PHPBuilder ()\fC [inline]\fP"
+Default constructor 
+.SS "PHPBuilder::PHPBuilder (std::string className, std::vector< std::string > Fields, std::string tableName)\fC [inline]\fP"
+Constructor that takes a class Name, vector of fields and name of table\&. Sets the properties and creates the out output fille handler\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIclassName\fP a string argument\&. 
+.br
+\fIFields\fP a vector of strings\&. 
+.br
+\fItableName\fP a string argument 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "std::vector< std::string > PHPBuilder::checkIfLineIsTooLong (std::string line)\fC [inline]\fP"
+Function that breaks a string with more than 70 characters into a vector of lines\&. If character 70 is not a space character, it is split at the first character before 70 that is a space\&. 
+.PP
+\fBReturns\fP
+.RS 4
+void 
+.RE
+.PP
+
+.SS "void PHPBuilder::closing ()\fC [inline]\fP"
+Function that writes the closing php bracket Writes the closing class bracket and php bracket\&. 
+.PP
+\fBReturns\fP
+.RS 4
+void 
+.RE
+.PP
+
+.SS "void PHPBuilder::createBindings ()\fC [inline]\fP"
+Function that writes bindings for parameters in prepared PHP statments Function that loops through fields and writes bindings for parameters in prepared PHP statments 
+.PP
+\fBReturns\fP
+.RS 4
+void 
+.RE
+.PP
+
+.SS "void PHPBuilder::createCheckIfExists ()\fC [inline]\fP"
+Writes a PHP function to check if a record exists Writes comments and CheckIfExists function for the output PHP file 
+.PP
+\fBReturns\fP
+.RS 4
+void 
+.RE
+.PP
+
+.SS "void PHPBuilder::createClassComment ()\fC [inline]\fP"
+Function that writes a comment for a class Writes a comment to be inserted above a class 
+.PP
+\fBReturns\fP
+.RS 4
+void 
+.RE
+.PP
+
+.SS "void PHPBuilder::createClassFile ()\fC [inline]\fP"
+Function that creates a PHP class with the built in CRUD methods Function creates a php class file with the class name, properties, constructor, read, readOne, readPaging, count, checkIfExists, getIfExists, insert, update, and remove functions\&. 
+.PP
+\fBReturns\fP
+.RS 4
+void 
+.RE
+.PP
+
+.SS "void PHPBuilder::createConstructor ()\fC [inline]\fP"
+Writes onstructor for the PHP file Writes comments and constructor function for PHP file 
+.PP
+\fBReturns\fP
+.RS 4
+void 
+.RE
+.PP
+
+.SS "void PHPBuilder::createCount ()\fC [inline]\fP"
+Function that writes a count function to retrieve the total number of records in the class's table Writes comments and function to retrieves the total number of records from the class's table 
+.br
+ 
+.PP
+\fBReturns\fP
+.RS 4
+void 
+.RE
+.PP
+
+.SS "void PHPBuilder::createGetIfExists ()\fC [inline]\fP"
+Writes a PHP function to check if a record exists and retrieves the fields Writes comments and GetIfExists function for the output PHP file 
+.PP
+\fBReturns\fP
+.RS 4
+void 
+.RE
+.PP
+
+.SS "void PHPBuilder::createInsert ()\fC [inline]\fP"
+Function that writes an insert function to insert a record into the class's table Writes comments and function to insert the a record into the class's table using the properties set in the class\&. 
+.PP
+\fBReturns\fP
+.RS 4
+void 
+.RE
+.PP
+
+.SS "void PHPBuilder::createMethodComment (std::string Description, std::string DetailedDescription, std::vector< std::pair< std::string, std::string > > Params, std::string returnType)\fC [inline]\fP"
+Function that writes a comment for a method Writes a comment to be inserted above a class method with the description, detailed description, parameters and return type\&. 
+.PP
+\fBReturns\fP
+.RS 4
+void 
+.RE
+.PP
+
+.SS "void PHPBuilder::createRead ()\fC [inline]\fP"
+Function that writes a read function to retrieve all records Writes comments and function to read all records from the class's table 
+.PP
+\fBReturns\fP
+.RS 4
+void 
+.RE
+.PP
+
+.SS "void PHPBuilder::createReadOne ()\fC [inline]\fP"
+Function that writes a read one function to retrieve a record by an ID Writes comments and function to read one record from the class's table with the class's id\&. 
+.PP
+\fBReturns\fP
+.RS 4
+void 
+.RE
+.PP
+
+.SS "void PHPBuilder::createReadPaging ()\fC [inline]\fP"
+Function that writes a read paging function to retrieve records in certain amounts Writes comments and function to read specific amounts of retrieved records from the class's table 
+.br
+ 
+.PP
+\fBReturns\fP
+.RS 4
+void 
+.RE
+.PP
+
+.SS "void PHPBuilder::createRemove ()\fC [inline]\fP"
+Function that writes a remove function to remove a record in the class's table\&. Writes comments and function to remove the a record at a certain ID in the class's table\&. 
+.PP
+\fBReturns\fP
+.RS 4
+void 
+.RE
+.PP
+
+.SS "void PHPBuilder::createUpdate ()\fC [inline]\fP"
+Function that writes an update function to update a record in the class's table Writes comments and function to update the a record at a certain ID into the class's table using the properties set in the class\&. 
+.PP
+\fBReturns\fP
+.RS 4
+void 
+.RE
+.PP
+
+.SS "std::string PHPBuilder::getClassName ()\fC [inline]\fP"
+Getter Retrieves the name of the class 
+.PP
+\fBReturns\fP
+.RS 4
+string 
+.RE
+.PP
+
+.SS "std::vector< std::string > PHPBuilder::getFields ()\fC [inline]\fP"
+Getter Retrieves the fields 
+.PP
+\fBReturns\fP
+.RS 4
+vector of strings 
+.RE
+.PP
+
+.SS "std::string PHPBuilder::getFileName ()\fC [inline]\fP"
+Getter Retrieves the name of the PHP output file 
+.PP
+\fBReturns\fP
+.RS 4
+string 
+.RE
+.PP
+
+.SS "std::string PHPBuilder::getTableName ()\fC [inline]\fP"
+Getter Retrieves the name of the table 
+.PP
+\fBReturns\fP
+.RS 4
+string 
+.RE
+.PP
+
+.SS "void PHPBuilder::opening ()\fC [inline]\fP"
+Function that creates the class name and properties portion of a class\&. Writes the opening php brackets, class name and loops through the fields vector to generate properties in the class\&. 
+.PP
+\fBReturns\fP
+.RS 4
+void 
+.RE
+.PP
+
+.SS "void PHPBuilder::sanitizeFields ()\fC [inline]\fP"
+Function that writes functions to sanitize fields used in prepared sql queries Loops through fields and assigns each field the fields value after sanitizing functions are used\&. 
+.PP
+\fBReturns\fP
+.RS 4
+void 
+.RE
+.PP
+
+.SS "void PHPBuilder::setObjectPropertiesFromQuery ()\fC [inline]\fP"
+Function that assigns properties from query results Loops through fields and sets the class properties to the row results of a sql squery 
+.PP
+\fBReturns\fP
+.RS 4
+void 
+.RE
+.PP
+
+.SS "std::string PHPBuilder::stringToLower (std::string str)\fC [inline]\fP"
+Function that converts a string to lower case Taken from //http://cplusplus\&.com/forum/beginner/218745/ Loops through characters in string and converts each character to lower\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIstr\fP string 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+string 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for PHPClassBuilder from the source code\&.

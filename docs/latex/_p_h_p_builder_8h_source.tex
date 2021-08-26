@@ -1,0 +1,602 @@
+\hypertarget{_p_h_p_builder_8h_source}{}\doxysection{PHPBuilder.\+h}
+\label{_p_h_p_builder_8h_source}\index{src/PHPBuilder.h@{src/PHPBuilder.h}}
+\mbox{\hyperlink{_p_h_p_builder_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#include <fstream>}}
+\DoxyCodeLine{3 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <map>}}
+\DoxyCodeLine{5 \textcolor{comment}{/*******************************************************************************}}
+\DoxyCodeLine{6 \textcolor{comment}{ * PHPBuilder}}
+\DoxyCodeLine{7 \textcolor{comment}{ *}}
+\DoxyCodeLine{8 \textcolor{comment}{ * Class takes a name, fields and table name to build a PHP file with common }}
+\DoxyCodeLine{9 \textcolor{comment}{ * CRUD functions. }}
+\DoxyCodeLine{10 \textcolor{comment}{ * }}
+\DoxyCodeLine{11 \textcolor{comment}{ *******************************************************************************/}}
+\DoxyCodeLine{12 \textcolor{keyword}{class }\mbox{\hyperlink{class_p_h_p_builder}{PHPBuilder}}}
+\DoxyCodeLine{13 \{}
+\DoxyCodeLine{14     \textcolor{keyword}{private}: }
+\DoxyCodeLine{15         std::string className; }
+\DoxyCodeLine{16         std::vector<std::string> Fields; }
+\DoxyCodeLine{17         std::string tableName; }
+\DoxyCodeLine{18         std::string fileName; }
+\DoxyCodeLine{19         std::ofstream out; }
+\DoxyCodeLine{21     \textcolor{keyword}{public}: }
+\DoxyCodeLine{25         \mbox{\hyperlink{class_p_h_p_builder_acce2389633a33e65583b2e7d3433d23b}{PHPBuilder}}()\{\}}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{36         \mbox{\hyperlink{class_p_h_p_builder_a0350a1007d4a54164300049d14dfd5b9}{PHPBuilder}}(std::string className, std::vector<std::string> Fields, std::string tableName)}
+\DoxyCodeLine{37         \{}
+\DoxyCodeLine{38             this-\/>className = className; }
+\DoxyCodeLine{39             this-\/>Fields = Fields;}
+\DoxyCodeLine{40             this-\/>tableName = tableName; }
+\DoxyCodeLine{41             this-\/>fileName = className + \textcolor{stringliteral}{"{}.php"{}}; }
+\DoxyCodeLine{42             this-\/>out.open(fileName, std::ios::out);}
+\DoxyCodeLine{43         \}}
+\DoxyCodeLine{44 }
+\DoxyCodeLine{50         std::string \mbox{\hyperlink{class_p_h_p_builder_a28cd22477a9bba13d7f89fa7fde5efc2}{getClassName}}()\{\textcolor{keywordflow}{return} this-\/>className;\}}
+\DoxyCodeLine{51 }
+\DoxyCodeLine{57         std::vector<std::string>  \mbox{\hyperlink{class_p_h_p_builder_a44e4cffba56befd6b3d1acdd600d338b}{getFields}}()\{\textcolor{keywordflow}{return} this-\/>Fields;\}}
+\DoxyCodeLine{58 }
+\DoxyCodeLine{64         std::string \mbox{\hyperlink{class_p_h_p_builder_a20c75367d7449f53d657115b598dce5c}{getTableName}}()\{\textcolor{keywordflow}{return} this-\/>tableName;\}}
+\DoxyCodeLine{65 }
+\DoxyCodeLine{71         std::string \mbox{\hyperlink{class_p_h_p_builder_ac4cf9a3ce2ee4e60486543f97c52478c}{getFileName}}()\{\textcolor{keywordflow}{return} this-\/>fileName;\}}
+\DoxyCodeLine{72 }
+\DoxyCodeLine{80         std::vector<std::string> \mbox{\hyperlink{class_p_h_p_builder_ad9e8fb9709dbeaa03b92578dc831648f}{checkIfLineIsTooLong}}(std::string line)}
+\DoxyCodeLine{81         \{}
+\DoxyCodeLine{82             std::vector<std::string> lines;}
+\DoxyCodeLine{83             \textcolor{keywordtype}{int} i = 0;}
+\DoxyCodeLine{84             \textcolor{keywordtype}{int} current = 0; }
+\DoxyCodeLine{85             \textcolor{keywordtype}{int} limit = 70;}
+\DoxyCodeLine{86             \textcolor{keywordflow}{if}(line.size() > limit)}
+\DoxyCodeLine{87             \{}
+\DoxyCodeLine{88                 \textcolor{keywordflow}{while}(line.substr(i, -\/1).size() > limit)}
+\DoxyCodeLine{89                 \{ }
+\DoxyCodeLine{90                     current = i; }
+\DoxyCodeLine{91                     i = i + limit;}
+\DoxyCodeLine{92                     \textcolor{keywordflow}{while}(line.at(i) != \textcolor{charliteral}{' '})}
+\DoxyCodeLine{93                     \{ }
+\DoxyCodeLine{94                         i = i -\/ 1;}
+\DoxyCodeLine{95                     \}}
+\DoxyCodeLine{96 }
+\DoxyCodeLine{97                     \textcolor{comment}{//std::cout << "{}i is "{} << i << "{}/n"{};}}
+\DoxyCodeLine{98                     lines.push\_back(line.substr(current, i));}
+\DoxyCodeLine{99                 \}}
+\DoxyCodeLine{100                 \textcolor{comment}{//skip the space by starting a character late}}
+\DoxyCodeLine{101                 lines.push\_back(line.substr(i+1, -\/1));}
+\DoxyCodeLine{102             \}}
+\DoxyCodeLine{103             \textcolor{keywordflow}{else} }
+\DoxyCodeLine{104             \{}
+\DoxyCodeLine{105                 lines.push\_back(line.substr(i, -\/1));}
+\DoxyCodeLine{106             \}}
+\DoxyCodeLine{107             \textcolor{keywordflow}{return} lines;}
+\DoxyCodeLine{108         \}}
+\DoxyCodeLine{109 }
+\DoxyCodeLine{117         \textcolor{keywordtype}{void} \mbox{\hyperlink{class_p_h_p_builder_ac2ee3f5efe54558a31a7d5eddcd4dd89}{createMethodComment}}(std::string Description, std::string DetailedDescription, }
+\DoxyCodeLine{118                         std::vector<std::pair<std::string, std::string>> Params,}
+\DoxyCodeLine{119                         std::string returnType)}
+\DoxyCodeLine{120         \{}
+\DoxyCodeLine{121             std::vector<std::string> DescriptionLines = \mbox{\hyperlink{class_p_h_p_builder_ad9e8fb9709dbeaa03b92578dc831648f}{checkIfLineIsTooLong}}(Description);}
+\DoxyCodeLine{122             std::vector<std::string> DetailedDescriptionLines = \mbox{\hyperlink{class_p_h_p_builder_ad9e8fb9709dbeaa03b92578dc831648f}{checkIfLineIsTooLong}}(DetailedDescription);}
+\DoxyCodeLine{123 }
+\DoxyCodeLine{124             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t/**\(\backslash\)n"{}};}
+\DoxyCodeLine{125             \textcolor{keywordflow}{for}(std::string l : DescriptionLines)}
+\DoxyCodeLine{126             \{}
+\DoxyCodeLine{127                 this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t * "{}} << l << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{128             \}}
+\DoxyCodeLine{129             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t *\(\backslash\)n"{}};}
+\DoxyCodeLine{130             \textcolor{keywordflow}{if}(Params.size() > 0)}
+\DoxyCodeLine{131             \{}
+\DoxyCodeLine{132                 \textcolor{keywordflow}{for}(std::pair<std::string, std::string> param : Params)}
+\DoxyCodeLine{133                 \{}
+\DoxyCodeLine{134                     this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t * @param "{}} << param.first << \textcolor{stringliteral}{"{} "{}} << param.second << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{135                 \}}
+\DoxyCodeLine{136             \}}
+\DoxyCodeLine{137             }
+\DoxyCodeLine{138             \textcolor{keywordflow}{for}(std::string d : DetailedDescriptionLines)}
+\DoxyCodeLine{139             \{}
+\DoxyCodeLine{140                 this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t * "{}} << d << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{141             \}}
+\DoxyCodeLine{142             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t * @return "{}} << returnType << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{143             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t*/\(\backslash\)n"{}};}
+\DoxyCodeLine{144         \}}
+\DoxyCodeLine{145 }
+\DoxyCodeLine{151         \textcolor{keywordtype}{void} \mbox{\hyperlink{class_p_h_p_builder_aa3b78fac38a7486e545938c7ac4bab69}{createClassComment}}()}
+\DoxyCodeLine{152         \{}
+\DoxyCodeLine{153             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t/**\(\backslash\)n"{}};}
+\DoxyCodeLine{154             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t * Class used to handle CRUD operations related to "{}} }
+\DoxyCodeLine{155                      << this-\/>\mbox{\hyperlink{class_p_h_p_builder_a00aff9a97c1811e6819b3091483cece9}{stringToLower}}(this-\/>className) << \textcolor{stringliteral}{"{}s. \(\backslash\)n"{}};}
+\DoxyCodeLine{156             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t */\(\backslash\)n"{}};}
+\DoxyCodeLine{157         \} }
+\DoxyCodeLine{158 }
+\DoxyCodeLine{165         \textcolor{keywordtype}{void} \mbox{\hyperlink{class_p_h_p_builder_a350bae2490e40eb412b8782e2f94dbde}{createConstructor}}()}
+\DoxyCodeLine{166         \{}
+\DoxyCodeLine{167             std::string Description = \textcolor{stringliteral}{"{}Constructor to create an "{}} }
+\DoxyCodeLine{168                                     + this-\/>\mbox{\hyperlink{class_p_h_p_builder_a00aff9a97c1811e6819b3091483cece9}{stringToLower}}(this-\/>className) }
+\DoxyCodeLine{169                                     + \textcolor{stringliteral}{"{} object."{}};}
+\DoxyCodeLine{170             std::vector<std::pair<std::string, std::string>> Params = \{ }
+\DoxyCodeLine{171                                     std::make\_pair(\textcolor{stringliteral}{"{}PDO"{}}, \textcolor{stringliteral}{"{}\$db a configured pdo connection obj"{}})}
+\DoxyCodeLine{172                                     \};}
+\DoxyCodeLine{173             std::string DetailedDescription = \textcolor{stringliteral}{"{}Creates "{}}}
+\DoxyCodeLine{174                                              + this-\/>className }
+\DoxyCodeLine{175                                              + \textcolor{stringliteral}{"{} object by setting the \$conn to a PDO object"{}};}
+\DoxyCodeLine{176             std::string returnType = \textcolor{stringliteral}{"{}Article"{}};}
+\DoxyCodeLine{177             this-\/>\mbox{\hyperlink{class_p_h_p_builder_ac2ee3f5efe54558a31a7d5eddcd4dd89}{createMethodComment}}(Description, DetailedDescription, Params, returnType);}
+\DoxyCodeLine{178             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)tpublic function \_\_construct(\$db)\(\backslash\)n"{}};}
+\DoxyCodeLine{179             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\{\(\backslash\)n"{}};}
+\DoxyCodeLine{180             this-\/>out <<\textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$this-\/>conn = \$db;\(\backslash\)n"{}};}
+\DoxyCodeLine{181             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\}\(\backslash\)n"{}};}
+\DoxyCodeLine{182             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{183         \}}
+\DoxyCodeLine{184 }
+\DoxyCodeLine{192         \textcolor{keywordtype}{void} \mbox{\hyperlink{class_p_h_p_builder_a0311d9ddc7fb36c323cf099fc9e3ed15}{createCheckIfExists}}()}
+\DoxyCodeLine{193         \{}
+\DoxyCodeLine{194             std::string Description = \textcolor{stringliteral}{"{}Checks if an "{}} }
+\DoxyCodeLine{195                                     + this-\/>\mbox{\hyperlink{class_p_h_p_builder_a00aff9a97c1811e6819b3091483cece9}{stringToLower}}(this-\/>className) }
+\DoxyCodeLine{196                                     + \textcolor{stringliteral}{"{} object exists in the database."{}};}
+\DoxyCodeLine{197             std::vector<std::pair<std::string, std::string>> Params = \{\};}
+\DoxyCodeLine{198             std::string DetailedDescription = \textcolor{stringliteral}{"{}Prepares and executes a simple Select count statement"{}}}
+\DoxyCodeLine{199                                              \textcolor{stringliteral}{"{}to see if there are multiple"{}}}
+\DoxyCodeLine{200                                             + this-\/>\mbox{\hyperlink{class_p_h_p_builder_a00aff9a97c1811e6819b3091483cece9}{stringToLower}}(this-\/>className) }
+\DoxyCodeLine{201                                             + \textcolor{stringliteral}{"{}records with the same fields"{}};}
+\DoxyCodeLine{202             std::string returnType = \textcolor{stringliteral}{"{}bool"{}};}
+\DoxyCodeLine{203             this-\/>\mbox{\hyperlink{class_p_h_p_builder_ac2ee3f5efe54558a31a7d5eddcd4dd89}{createMethodComment}}(Description, DetailedDescription, Params, returnType);}
+\DoxyCodeLine{204             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)tpublic function checkIfExists() : bool\(\backslash\)n"{}};}
+\DoxyCodeLine{205             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\{\(\backslash\)n"{}};}
+\DoxyCodeLine{206             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$query = \(\backslash\)"{}SELECT Count(*) as count\(\backslash\)n"{}}; }
+\DoxyCodeLine{207             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)t FROM \(\backslash\)"{} . \$this-\/>table\_name . \(\backslash\)"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{208             \textcolor{keywordtype}{bool} first = \textcolor{keyword}{true}; }
+\DoxyCodeLine{209             \textcolor{keywordtype}{int} i = 0; }
+\DoxyCodeLine{210             \textcolor{keywordflow}{for} (std::string f : this-\/>Fields)}
+\DoxyCodeLine{211             \{}
+\DoxyCodeLine{212                 \textcolor{keywordflow}{if}(first)\{}
+\DoxyCodeLine{213                     this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)tWHERE "{}} << f << \textcolor{stringliteral}{"{} = \(\backslash\)"{} . \$this-\/>"{}} << f << \textcolor{stringliteral}{"{} . \(\backslash\)"{}"{}};}
+\DoxyCodeLine{214                 \}\textcolor{keywordflow}{else}}
+\DoxyCodeLine{215                 \{}
+\DoxyCodeLine{216                     this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)tAND "{}} << f << \textcolor{stringliteral}{"{} = \(\backslash\)"{} . \$this-\/>"{}} << f << \textcolor{stringliteral}{"{} . \(\backslash\)"{}"{}};}
+\DoxyCodeLine{217                 \}}
+\DoxyCodeLine{218                 i++;}
+\DoxyCodeLine{219                 \textcolor{keywordflow}{if}(i == this-\/>Fields.size())}
+\DoxyCodeLine{220                 \{}
+\DoxyCodeLine{221                     this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)"{};\(\backslash\)n"{}};}
+\DoxyCodeLine{222                 \}}
+\DoxyCodeLine{223                 \textcolor{keywordflow}{else}}
+\DoxyCodeLine{224                 \{}
+\DoxyCodeLine{225                     this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{226                 \}}
+\DoxyCodeLine{227                 }
+\DoxyCodeLine{228                 first = \textcolor{keyword}{false}; }
+\DoxyCodeLine{229             \}}
+\DoxyCodeLine{230             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{231             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t//prepare query\(\backslash\)n"{}};}
+\DoxyCodeLine{232             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$stmt = \$this-\/>conn-\/>prepare(\$query);\(\backslash\)n"{}};}
+\DoxyCodeLine{233             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$stmt-\/>execute();\(\backslash\)n"{}};}
+\DoxyCodeLine{234             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$row = \$stmt-\/>fetch(PDO::FETCH\_ASSOC);\(\backslash\)n"{}};}
+\DoxyCodeLine{235             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)tif(\$row['count'] > 0)\(\backslash\)n"{}};}
+\DoxyCodeLine{236             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\{\(\backslash\)n"{}};}
+\DoxyCodeLine{237             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)treturn true;\(\backslash\)n"{}};}
+\DoxyCodeLine{238             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\}\(\backslash\)n"{}};}
+\DoxyCodeLine{239             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)treturn false;\(\backslash\)n"{}};}
+\DoxyCodeLine{240             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\}\(\backslash\)n"{}};}
+\DoxyCodeLine{241             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{242         \}}
+\DoxyCodeLine{243 }
+\DoxyCodeLine{251         \textcolor{keywordtype}{void} \mbox{\hyperlink{class_p_h_p_builder_a90a8dbefc99187fc93967fcdf83cc89a}{createGetIfExists}}()}
+\DoxyCodeLine{252         \{}
+\DoxyCodeLine{253             std::string Description = \textcolor{stringliteral}{"{}Checks if an "{}} }
+\DoxyCodeLine{254                                     + this-\/>\mbox{\hyperlink{class_p_h_p_builder_a00aff9a97c1811e6819b3091483cece9}{stringToLower}}(this-\/>className) }
+\DoxyCodeLine{255                                     + \textcolor{stringliteral}{"{} object exists in the database using currently set properties."{}};}
+\DoxyCodeLine{256             std::vector<std::pair<std::string, std::string>> Params = \{\};}
+\DoxyCodeLine{257             std::string DetailedDescription = \textcolor{stringliteral}{"{}Prepares and executes a simple Select statement that"{}}}
+\DoxyCodeLine{258                                               \textcolor{stringliteral}{"{} retrieves an "{}}}
+\DoxyCodeLine{259                                             + this-\/>\mbox{\hyperlink{class_p_h_p_builder_a00aff9a97c1811e6819b3091483cece9}{stringToLower}}(this-\/>className) }
+\DoxyCodeLine{260                                             + \textcolor{stringliteral}{"{} object from the database with currently set properties"{}};}
+\DoxyCodeLine{261             std::string returnType = \textcolor{stringliteral}{"{}bool"{}};}
+\DoxyCodeLine{262             this-\/>\mbox{\hyperlink{class_p_h_p_builder_ac2ee3f5efe54558a31a7d5eddcd4dd89}{createMethodComment}}(Description, DetailedDescription, Params, returnType);}
+\DoxyCodeLine{263             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)tpublic function checkIfExists() : bool\(\backslash\)n"{}};}
+\DoxyCodeLine{264             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\{\(\backslash\)n"{}};}
+\DoxyCodeLine{265             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$query = \(\backslash\)"{}SELECT *\(\backslash\)n"{}}; }
+\DoxyCodeLine{266             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)t FROM \(\backslash\)"{} . \$this-\/>table\_name . \(\backslash\)"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{267 }
+\DoxyCodeLine{268             \textcolor{keywordtype}{bool} first = \textcolor{keyword}{true}; }
+\DoxyCodeLine{269             \textcolor{keywordtype}{int} i = 0; }
+\DoxyCodeLine{270             \textcolor{keywordflow}{for} (std::string f : this-\/>Fields)}
+\DoxyCodeLine{271             \{}
+\DoxyCodeLine{272                 \textcolor{keywordflow}{if}(first)\{}
+\DoxyCodeLine{273                     this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)tWHERE "{}} << f << \textcolor{stringliteral}{"{} = \(\backslash\)"{} . \$this-\/>"{}} << f << \textcolor{stringliteral}{"{} . \(\backslash\)"{}"{}};}
+\DoxyCodeLine{274                 \}\textcolor{keywordflow}{else}}
+\DoxyCodeLine{275                 \{}
+\DoxyCodeLine{276                     this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)tAND "{}} << f << \textcolor{stringliteral}{"{} = \(\backslash\)"{} . \$this-\/>"{}} << f << \textcolor{stringliteral}{"{} . \(\backslash\)"{}"{}};}
+\DoxyCodeLine{277                 \}}
+\DoxyCodeLine{278                 i++;}
+\DoxyCodeLine{279                 \textcolor{keywordflow}{if}(i == this-\/>Fields.size())}
+\DoxyCodeLine{280                 \{}
+\DoxyCodeLine{281                     this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)"{};\(\backslash\)n"{}};}
+\DoxyCodeLine{282                 \}}
+\DoxyCodeLine{283                 \textcolor{keywordflow}{else}}
+\DoxyCodeLine{284                 \{}
+\DoxyCodeLine{285                     this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{286                 \}}
+\DoxyCodeLine{287                 }
+\DoxyCodeLine{288                 first = \textcolor{keyword}{false}; }
+\DoxyCodeLine{289             \}}
+\DoxyCodeLine{290             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{291             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t//prepare query\(\backslash\)n"{}};}
+\DoxyCodeLine{292             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$stmt = \$this-\/>conn-\/>prepare(\$query);\(\backslash\)n"{}};}
+\DoxyCodeLine{293             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$stmt-\/>execute();\(\backslash\)n"{}};}
+\DoxyCodeLine{294             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$row = \$stmt-\/>fetch(PDO::FETCH\_ASSOC);\(\backslash\)n"{}};}
+\DoxyCodeLine{295             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)tif(\$row['count'] > 0)\(\backslash\)n"{}};}
+\DoxyCodeLine{296             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\{\(\backslash\)n"{}};}
+\DoxyCodeLine{297             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)treturn true;\(\backslash\)n"{}};}
+\DoxyCodeLine{298             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\}\(\backslash\)n"{}};}
+\DoxyCodeLine{299             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)treturn false;\(\backslash\)n"{}};}
+\DoxyCodeLine{300             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\}\(\backslash\)n"{}};}
+\DoxyCodeLine{301             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{302         \}}
+\DoxyCodeLine{303 }
+\DoxyCodeLine{311         \textcolor{keywordtype}{void} \mbox{\hyperlink{class_p_h_p_builder_a4959f935d0d88559082567ae80c69bdf}{createBindings}}()}
+\DoxyCodeLine{312         \{}
+\DoxyCodeLine{313             \textcolor{keywordflow}{for}(std::string f: this-\/>Fields)}
+\DoxyCodeLine{314             \{}
+\DoxyCodeLine{315                 this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$stmt-\/>bindParam(\(\backslash\)"{}:"{}}<< f << \textcolor{stringliteral}{"{}\(\backslash\)"{}, \$this-\/>"{}} << f << \textcolor{stringliteral}{"{});\(\backslash\)n"{}}; }
+\DoxyCodeLine{316             \}}
+\DoxyCodeLine{317         \}}
+\DoxyCodeLine{318 }
+\DoxyCodeLine{326         \textcolor{keywordtype}{void} \mbox{\hyperlink{class_p_h_p_builder_ae368f8bb88c0f0ad9c6f21967e051d35}{setObjectPropertiesFromQuery}}()}
+\DoxyCodeLine{327         \{}
+\DoxyCodeLine{328             \textcolor{keywordflow}{for}(std::string f: this-\/>Fields)}
+\DoxyCodeLine{329             \{}
+\DoxyCodeLine{330                 this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$this-\/>"{}} << f << \textcolor{stringliteral}{"{} = \$row['"{}} << f << \textcolor{stringliteral}{"{}'];\(\backslash\)n"{}};}
+\DoxyCodeLine{331             \}}
+\DoxyCodeLine{332         \}}
+\DoxyCodeLine{333 }
+\DoxyCodeLine{341         \textcolor{keywordtype}{void} \mbox{\hyperlink{class_p_h_p_builder_ad4357c586917b0600d9b3acc8055db49}{sanitizeFields}}()}
+\DoxyCodeLine{342         \{}
+\DoxyCodeLine{343             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t//Santize\(\backslash\)n"{}};}
+\DoxyCodeLine{344             \textcolor{keywordflow}{for}(std::string f: this-\/>Fields)}
+\DoxyCodeLine{345             \{}
+\DoxyCodeLine{346                 this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$this-\/>"{}} << f << \textcolor{stringliteral}{"{}=htmlspecialchars(strip\_tags(\$"{}} << f << \textcolor{stringliteral}{"{}));\(\backslash\)n"{}};}
+\DoxyCodeLine{347             \}}
+\DoxyCodeLine{348         \}}
+\DoxyCodeLine{349 }
+\DoxyCodeLine{357         \textcolor{keywordtype}{void} \mbox{\hyperlink{class_p_h_p_builder_a9772720d3c101d2bbb93735eb23128d8}{createRead}}()}
+\DoxyCodeLine{358         \{}
+\DoxyCodeLine{359             std::string Description = \textcolor{stringliteral}{"{}Retrieves all records from "{}} }
+\DoxyCodeLine{360                                     + this-\/>\mbox{\hyperlink{class_p_h_p_builder_a00aff9a97c1811e6819b3091483cece9}{stringToLower}}(this-\/>className) }
+\DoxyCodeLine{361                                     + \textcolor{stringliteral}{"{}s view."{}};}
+\DoxyCodeLine{362             std::vector<std::pair<std::string, std::string>> Params = \{\};}
+\DoxyCodeLine{363             std::string DetailedDescription = \textcolor{stringliteral}{"{}Prepares and executes a simple Select statement to"{}}}
+\DoxyCodeLine{364                                             \textcolor{stringliteral}{"{} retrieve all records in the "{}} }
+\DoxyCodeLine{365                                             + this-\/>\mbox{\hyperlink{class_p_h_p_builder_a00aff9a97c1811e6819b3091483cece9}{stringToLower}}(this-\/>className) }
+\DoxyCodeLine{366                                             + \textcolor{stringliteral}{"{} view."{}};}
+\DoxyCodeLine{367             std::string returnType = \textcolor{stringliteral}{"{}PDOStatement"{}};}
+\DoxyCodeLine{368             this-\/>\mbox{\hyperlink{class_p_h_p_builder_ac2ee3f5efe54558a31a7d5eddcd4dd89}{createMethodComment}}(Description, DetailedDescription, Params, returnType);}
+\DoxyCodeLine{369             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t//Selects all records\(\backslash\)n"{}};}
+\DoxyCodeLine{370             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)tpublic function read()\(\backslash\)n"{}};}
+\DoxyCodeLine{371             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\{\(\backslash\)n"{}};}
+\DoxyCodeLine{372             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$query = \(\backslash\)"{}SELECT * \(\backslash\)n"{}};}
+\DoxyCodeLine{373             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)tFROM \(\backslash\)"{} . \$this-\/>table\_name . \(\backslash\)"{}\(\backslash\)n"{}}; }
+\DoxyCodeLine{374             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)t ORDER BY ID ASC\(\backslash\)"{};\(\backslash\)n"{}}; }
+\DoxyCodeLine{375             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{376             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t//prepare query\(\backslash\)n"{}};}
+\DoxyCodeLine{377             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$stmt = \$this-\/>conn-\/>prepare(\$query);\(\backslash\)n"{}};}
+\DoxyCodeLine{378             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{379             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t//execute\(\backslash\)n"{}};}
+\DoxyCodeLine{380             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$stmt-\/>execute();\(\backslash\)n"{}};}
+\DoxyCodeLine{381             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{382             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)treturn \$stmt;\(\backslash\)n"{}};}
+\DoxyCodeLine{383             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\}"{}};}
+\DoxyCodeLine{384             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{385             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{386         \}}
+\DoxyCodeLine{387 }
+\DoxyCodeLine{396         \textcolor{keywordtype}{void} \mbox{\hyperlink{class_p_h_p_builder_a3dab69543124c031656e0d64995a0341}{createReadOne}}()}
+\DoxyCodeLine{397         \{}
+\DoxyCodeLine{398             std::string Description = \textcolor{stringliteral}{"{}Retrieves one "{}} }
+\DoxyCodeLine{399                                     + this-\/>\mbox{\hyperlink{class_p_h_p_builder_a00aff9a97c1811e6819b3091483cece9}{stringToLower}}(this-\/>className) }
+\DoxyCodeLine{400                                     + \textcolor{stringliteral}{"{} record by ID"{}};}
+\DoxyCodeLine{401             std::vector<std::pair<std::string, std::string>> Params = \{\};}
+\DoxyCodeLine{402             std::string DetailedDescription = \textcolor{stringliteral}{"{}Prepares and executes a simple Select statement "{}}}
+\DoxyCodeLine{403                                               \textcolor{stringliteral}{"{}retrieving all values for one record and updates the "{}}}
+\DoxyCodeLine{404                                             +  this-\/>\mbox{\hyperlink{class_p_h_p_builder_a00aff9a97c1811e6819b3091483cece9}{stringToLower}}(this-\/>className) + \textcolor{stringliteral}{"{} object."{}};}
+\DoxyCodeLine{405             std::string returnType = \textcolor{stringliteral}{"{}void"{}};}
+\DoxyCodeLine{406             this-\/>\mbox{\hyperlink{class_p_h_p_builder_ac2ee3f5efe54558a31a7d5eddcd4dd89}{createMethodComment}}(Description, DetailedDescription, Params, returnType);}
+\DoxyCodeLine{407             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)tpublic function readOne() : void\(\backslash\)n"{}};}
+\DoxyCodeLine{408             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\{\(\backslash\)n"{}};}
+\DoxyCodeLine{409             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t//query to read single record\(\backslash\)n"{}};}
+\DoxyCodeLine{410             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$query = \(\backslash\)"{}SELECT * \(\backslash\)n"{}};}
+\DoxyCodeLine{411             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)tFROM \(\backslash\)"{} . \$this-\/>table\_name . \(\backslash\)"{}\(\backslash\)n"{}}; }
+\DoxyCodeLine{412             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)t WHERE Id = ?\(\backslash\)n"{}}; }
+\DoxyCodeLine{413             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)t WHERE LIMIT 0,1\(\backslash\)"{};\(\backslash\)n"{}}; }
+\DoxyCodeLine{414             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{415             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t//prepare query\(\backslash\)n"{}};}
+\DoxyCodeLine{416             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$stmt = \$this-\/>conn-\/>prepare(\$query);\(\backslash\)n"{}};}
+\DoxyCodeLine{417             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{418             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t//bind id of product to be updated\(\backslash\)n"{}};}
+\DoxyCodeLine{419             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$stmt-\/>bindParam(1, \$this-\/>Id);\(\backslash\)n"{}}; }
+\DoxyCodeLine{420             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{421             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t//execute query\(\backslash\)n"{}};}
+\DoxyCodeLine{422             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$stmt-\/>execute();\(\backslash\)n"{}};}
+\DoxyCodeLine{423             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{424             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t//get retrieved row\(\backslash\)n"{}};}
+\DoxyCodeLine{425             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$row = \$stmt-\/>fetch(PDO::FETCH\_ASSOC);\(\backslash\)n"{}};}
+\DoxyCodeLine{426             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{427             this-\/>\mbox{\hyperlink{class_p_h_p_builder_ae368f8bb88c0f0ad9c6f21967e051d35}{setObjectPropertiesFromQuery}}();}
+\DoxyCodeLine{428             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\}"{}};}
+\DoxyCodeLine{429             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{430             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{431         \}}
+\DoxyCodeLine{432 }
+\DoxyCodeLine{441         \textcolor{keywordtype}{void} \mbox{\hyperlink{class_p_h_p_builder_a5ffe742a236cb926223c6ef9da14814e}{createReadPaging}}()}
+\DoxyCodeLine{442         \{}
+\DoxyCodeLine{443             std::string Description = \textcolor{stringliteral}{"{}Retrieves a certain number of records from "{}} }
+\DoxyCodeLine{444                                     + this-\/>\mbox{\hyperlink{class_p_h_p_builder_a00aff9a97c1811e6819b3091483cece9}{stringToLower}}(this-\/>className) }
+\DoxyCodeLine{445                                     + \textcolor{stringliteral}{"{} view."{}};}
+\DoxyCodeLine{446             std::vector<std::pair<std::string, std::string>> Params = \{ }
+\DoxyCodeLine{447                 std::make\_pair(\textcolor{stringliteral}{"{}int"{}}, \textcolor{stringliteral}{"{}\$from\_record\_num first record to display"{}}),}
+\DoxyCodeLine{448                 std::make\_pair(\textcolor{stringliteral}{"{}int"{}}, \textcolor{stringliteral}{"{}\$records\_per\_page total number of records to retrieve"{}})}
+\DoxyCodeLine{449                 \};}
+\DoxyCodeLine{450             std::string DetailedDescription = \textcolor{stringliteral}{"{}Prepares and executes a simple Select statement"{}}}
+\DoxyCodeLine{451                                             \textcolor{stringliteral}{"{} to retrieve records starting from an id to a "{}}}
+\DoxyCodeLine{452                                             \textcolor{stringliteral}{"{}certain id in the "{}} }
+\DoxyCodeLine{453                                             + this-\/>\mbox{\hyperlink{class_p_h_p_builder_a00aff9a97c1811e6819b3091483cece9}{stringToLower}}(this-\/>className) + \textcolor{stringliteral}{"{} view."{}};}
+\DoxyCodeLine{454             std::string returnType = \textcolor{stringliteral}{"{}PDOStatement"{}};}
+\DoxyCodeLine{455             this-\/>\mbox{\hyperlink{class_p_h_p_builder_ac2ee3f5efe54558a31a7d5eddcd4dd89}{createMethodComment}}(Description, DetailedDescription, Params, returnType);}
+\DoxyCodeLine{456             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)tpublic function readPaging(\$from\_record\_num, \$records\_per\_page)\(\backslash\)n"{}};}
+\DoxyCodeLine{457             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\{\(\backslash\)n"{}};}
+\DoxyCodeLine{458             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t// select query\(\backslash\)n"{}};}
+\DoxyCodeLine{459             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$query = \(\backslash\)"{}SELECT * \(\backslash\)n"{}};}
+\DoxyCodeLine{460             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)tFROM \(\backslash\)"{} . \$this-\/>table\_name . \(\backslash\)"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{461             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)tORDER BY ID ASC\(\backslash\)n"{}};}
+\DoxyCodeLine{462             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)tLIMIT ?, ?\(\backslash\)"{};"{}};}
+\DoxyCodeLine{463             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{464             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t// prepare query statement\(\backslash\)n"{}};}
+\DoxyCodeLine{465             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$stmt = \$this-\/>conn-\/>prepare( \$query );\(\backslash\)n;"{}};}
+\DoxyCodeLine{466             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{467             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t// bind variable values\(\backslash\)n"{}};}
+\DoxyCodeLine{468             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$stmt-\/>bindParam(1, \$from\_record\_num, PDO::PARAM\_INT);\(\backslash\)n"{}};}
+\DoxyCodeLine{469             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$stmt-\/>bindParam(2, \$records\_per\_page, PDO::PARAM\_INT);\(\backslash\)n"{}};}
+\DoxyCodeLine{470             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{471             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t// execute query\(\backslash\)n"{}};}
+\DoxyCodeLine{472             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$stmt-\/>execute();\(\backslash\)n"{}};}
+\DoxyCodeLine{473             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{474             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t// return values from database\(\backslash\)n"{}};}
+\DoxyCodeLine{475             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)treturn \$stmt;\(\backslash\)n"{}};}
+\DoxyCodeLine{476             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\}\(\backslash\)n"{}};}
+\DoxyCodeLine{477             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{478         \}}
+\DoxyCodeLine{479 }
+\DoxyCodeLine{489         \textcolor{keywordtype}{void} \mbox{\hyperlink{class_p_h_p_builder_a9e14b9a5fda86495e3692226f1a63ebe}{createCount}}()}
+\DoxyCodeLine{490         \{}
+\DoxyCodeLine{491             std::string Description = \textcolor{stringliteral}{"{}Retrieves the total number of records in "{}} }
+\DoxyCodeLine{492                                     + this-\/>\mbox{\hyperlink{class_p_h_p_builder_a00aff9a97c1811e6819b3091483cece9}{stringToLower}}(this-\/>className) }
+\DoxyCodeLine{493                                     + \textcolor{stringliteral}{"{} view."{}};}
+\DoxyCodeLine{494             std::vector<std::pair<std::string, std::string>> Params = \{\};}
+\DoxyCodeLine{495             std::string DetailedDescription = \textcolor{stringliteral}{"{}Prepares and executes a simple Select statement "{}}}
+\DoxyCodeLine{496                                             \textcolor{stringliteral}{"{}retreiving the count for all rows in the "{}} }
+\DoxyCodeLine{497                                             + this-\/>\mbox{\hyperlink{class_p_h_p_builder_a00aff9a97c1811e6819b3091483cece9}{stringToLower}}(this-\/>className) }
+\DoxyCodeLine{498                                             + \textcolor{stringliteral}{"{} view."{}};}
+\DoxyCodeLine{499             std::string returnType = \textcolor{stringliteral}{"{}int"{}};}
+\DoxyCodeLine{500             this-\/>\mbox{\hyperlink{class_p_h_p_builder_ac2ee3f5efe54558a31a7d5eddcd4dd89}{createMethodComment}}(Description, DetailedDescription, Params, returnType);}
+\DoxyCodeLine{501             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t//Retrieves total number of rows in table\(\backslash\)n"{}};}
+\DoxyCodeLine{502             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)tpublic function count(): int\(\backslash\)n"{}};}
+\DoxyCodeLine{503             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\{\(\backslash\)n"{}};}
+\DoxyCodeLine{504             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$query = \(\backslash\)"{}SELECT COUNT(*) as count FROM \(\backslash\)"{} . \$this-\/>table\_name . \(\backslash\)"{}\(\backslash\)"{};\(\backslash\)n"{}};}
+\DoxyCodeLine{505             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$stmt = \$this-\/>conn-\/>prepare(\$query);\(\backslash\)n"{}};}
+\DoxyCodeLine{506             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$stmt-\/>execute();\(\backslash\)n"{}};}
+\DoxyCodeLine{507             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$row = \$stmt-\/>fetch(PDO::FETCH\_ASSOC);\(\backslash\)n"{}};}
+\DoxyCodeLine{508             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)treturn \$row['count'];\(\backslash\)n"{}};}
+\DoxyCodeLine{509             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\}\(\backslash\)n"{}};}
+\DoxyCodeLine{510             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{511         \}}
+\DoxyCodeLine{512 }
+\DoxyCodeLine{521         \textcolor{keywordtype}{void} \mbox{\hyperlink{class_p_h_p_builder_a885ad43ad5bef6d5fff698432d1f337c}{createInsert}}()}
+\DoxyCodeLine{522         \{}
+\DoxyCodeLine{523             std::string Description = \textcolor{stringliteral}{"{}Inserts a record into the "{}} }
+\DoxyCodeLine{524                                     + this-\/>\mbox{\hyperlink{class_p_h_p_builder_a00aff9a97c1811e6819b3091483cece9}{stringToLower}}(this-\/>className) }
+\DoxyCodeLine{525                                     + \textcolor{stringliteral}{"{} table."{}};}
+\DoxyCodeLine{526             std::vector<std::pair<std::string, std::string>> Params = \{\};}
+\DoxyCodeLine{527             std::string DetailedDescription = \textcolor{stringliteral}{"{}Inserts a record into the "{}} }
+\DoxyCodeLine{528                                             + this-\/>\mbox{\hyperlink{class_p_h_p_builder_a00aff9a97c1811e6819b3091483cece9}{stringToLower}}(this-\/>className) }
+\DoxyCodeLine{529                                             + \textcolor{stringliteral}{"{} table using currently set properties in "{}} }
+\DoxyCodeLine{530                                             + this-\/>\mbox{\hyperlink{class_p_h_p_builder_a00aff9a97c1811e6819b3091483cece9}{stringToLower}}(this-\/>className) }
+\DoxyCodeLine{531                                             + \textcolor{stringliteral}{"{} object. If successful returns true."{}};}
+\DoxyCodeLine{532             std::string returnType = \textcolor{stringliteral}{"{}bool"{}};}
+\DoxyCodeLine{533             this-\/>\mbox{\hyperlink{class_p_h_p_builder_ac2ee3f5efe54558a31a7d5eddcd4dd89}{createMethodComment}}(Description, DetailedDescription, Params, returnType);}
+\DoxyCodeLine{534             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)tpublic function Insert(): bool \(\backslash\)n"{}};}
+\DoxyCodeLine{535             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\{\(\backslash\)n"{}};}
+\DoxyCodeLine{536             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$query = \(\backslash\)"{}INSERT INTO \(\backslash\)n"{}}; }
+\DoxyCodeLine{537             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)"{} . \$this-\/>table\_name . \(\backslash\)"{}\(\backslash\)n"{}}; }
+\DoxyCodeLine{538             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)tSET \(\backslash\)n"{}}; }
+\DoxyCodeLine{539             \textcolor{keywordtype}{int} i = 1; }
+\DoxyCodeLine{540             \textcolor{keywordflow}{for}(std::string f : this-\/>Fields)}
+\DoxyCodeLine{541             \{}
+\DoxyCodeLine{542                 \textcolor{keywordflow}{if}(i \% 2 != 0)}
+\DoxyCodeLine{543                 \{}
+\DoxyCodeLine{544                     this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)t"{}};}
+\DoxyCodeLine{545                 \}}
+\DoxyCodeLine{546                 this-\/>out << f << \textcolor{stringliteral}{"{}=:"{}} << f;}
+\DoxyCodeLine{547                 \textcolor{keywordflow}{if}(i < this-\/>Fields.size())}
+\DoxyCodeLine{548                 \{}
+\DoxyCodeLine{549                     \textcolor{keywordflow}{if}(i \%2 == 0)}
+\DoxyCodeLine{550                     \{}
+\DoxyCodeLine{551                         this-\/>out << \textcolor{stringliteral}{"{},\(\backslash\)n"{}}; }
+\DoxyCodeLine{552                     \}}
+\DoxyCodeLine{553                     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{554                     \{}
+\DoxyCodeLine{555                         this-\/>out << \textcolor{stringliteral}{"{}, "{}};}
+\DoxyCodeLine{556                     \}}
+\DoxyCodeLine{557                 \}}
+\DoxyCodeLine{558                 \textcolor{keywordflow}{else}}
+\DoxyCodeLine{559                 \{}
+\DoxyCodeLine{560                     this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)"{};\(\backslash\)n"{}};}
+\DoxyCodeLine{561                 \}}
+\DoxyCodeLine{562                 }
+\DoxyCodeLine{563                 i++;}
+\DoxyCodeLine{564             \}}
+\DoxyCodeLine{565             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{566             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t//prepare query\(\backslash\)n"{}};}
+\DoxyCodeLine{567             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$stmt = \$this-\/>conn-\/>prepare(\$query);\(\backslash\)n"{}};}
+\DoxyCodeLine{568             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{569             this-\/>\mbox{\hyperlink{class_p_h_p_builder_ad4357c586917b0600d9b3acc8055db49}{sanitizeFields}}();}
+\DoxyCodeLine{570             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{571             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t//Bind parameters\(\backslash\)n"{}};}
+\DoxyCodeLine{572             this-\/>\mbox{\hyperlink{class_p_h_p_builder_a4959f935d0d88559082567ae80c69bdf}{createBindings}}();}
+\DoxyCodeLine{573             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)tif(\$stmt-\/>execute())\(\backslash\)n"{}};}
+\DoxyCodeLine{574             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\{\(\backslash\)n"{}};}
+\DoxyCodeLine{575             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)t\$this-\/>ID = \$this-\/>getLastInsertedId();\(\backslash\)n"{}};}
+\DoxyCodeLine{576             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)treturn true;\(\backslash\)n"{}};}
+\DoxyCodeLine{577             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\}\(\backslash\)n"{}};}
+\DoxyCodeLine{578             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)treturn false;\(\backslash\)n"{}};}
+\DoxyCodeLine{579             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\}"{}};}
+\DoxyCodeLine{580             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{581         \}}
+\DoxyCodeLine{582 }
+\DoxyCodeLine{591         \textcolor{keywordtype}{void} \mbox{\hyperlink{class_p_h_p_builder_a1489dff764121ac3c992441044cceec3}{createUpdate}}()}
+\DoxyCodeLine{592         \{}
+\DoxyCodeLine{593             std::string Description = \textcolor{stringliteral}{"{}Updates a record in sources "{}} }
+\DoxyCodeLine{594                                     + this-\/>\mbox{\hyperlink{class_p_h_p_builder_a00aff9a97c1811e6819b3091483cece9}{stringToLower}}(this-\/>className) }
+\DoxyCodeLine{595                                     + \textcolor{stringliteral}{"{} table using currently  set properties in "{}} }
+\DoxyCodeLine{596                                     + this-\/>\mbox{\hyperlink{class_p_h_p_builder_a00aff9a97c1811e6819b3091483cece9}{stringToLower}}(this-\/>className) }
+\DoxyCodeLine{597                                     + \textcolor{stringliteral}{"{} object."{}};}
+\DoxyCodeLine{598             std::vector<std::pair<std::string, std::string>> Params = \{}
+\DoxyCodeLine{599                 std::make\_pair(\textcolor{stringliteral}{"{}int"{}},  \textcolor{stringliteral}{"{}ID Integer for ID to update"{}})\};}
+\DoxyCodeLine{600             std::string DetailedDescription = \textcolor{stringliteral}{"{}Updates a record in the "{}} }
+\DoxyCodeLine{601                                             + this-\/>\mbox{\hyperlink{class_p_h_p_builder_a00aff9a97c1811e6819b3091483cece9}{stringToLower}}(this-\/>className) }
+\DoxyCodeLine{602                                             + \textcolor{stringliteral}{"{} table using currently set properties in "{}} }
+\DoxyCodeLine{603                                             + this-\/>\mbox{\hyperlink{class_p_h_p_builder_a00aff9a97c1811e6819b3091483cece9}{stringToLower}}(this-\/>className) }
+\DoxyCodeLine{604                                             + \textcolor{stringliteral}{"{} object for a given id. If successful returns true."{}};}
+\DoxyCodeLine{605             std::string returnType = \textcolor{stringliteral}{"{}bool"{}};}
+\DoxyCodeLine{606             this-\/>\mbox{\hyperlink{class_p_h_p_builder_ac2ee3f5efe54558a31a7d5eddcd4dd89}{createMethodComment}}(Description, DetailedDescription, Params, returnType);}
+\DoxyCodeLine{607             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)tpublic function update(\$ID): bool \(\backslash\)n"{}};}
+\DoxyCodeLine{608             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\{\(\backslash\)n"{}};}
+\DoxyCodeLine{609             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$this-\/>ID = \$ID;\(\backslash\)n"{}};}
+\DoxyCodeLine{610             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$properties = get\_object\_vars(\$this);\(\backslash\)n"{}};}
+\DoxyCodeLine{611             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$keys = array\_keys(\$properties);\(\backslash\)n"{}};}
+\DoxyCodeLine{612             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$propertiesToExclude = [\(\backslash\)"{}ID\(\backslash\)"{}, \(\backslash\)"{}conn\(\backslash\)"{}, \(\backslash\)"{}table\_name\(\backslash\)"{}];\(\backslash\)n"{}};}
+\DoxyCodeLine{613             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$first = true;\(\backslash\)n"{}};}
+\DoxyCodeLine{614             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$query = \(\backslash\)"{}UPDATE \(\backslash\)"{} . \$this-\/>table\_name . \(\backslash\)"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{615             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)tSET\(\backslash\)"{};\(\backslash\)n"{}};}
+\DoxyCodeLine{616             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)tforeach(\$keys as \$k)\(\backslash\)n"{}};}
+\DoxyCodeLine{617             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\{\(\backslash\)n"{}};}
+\DoxyCodeLine{618             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)tif(in\_array(\$k, \$propertiesToExclude) == false)\(\backslash\)n"{}};}
+\DoxyCodeLine{619             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)t\{\(\backslash\)n"{}};}
+\DoxyCodeLine{620             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)tif(\$first == true)\(\backslash\)n"{}};}
+\DoxyCodeLine{621             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)t\{\(\backslash\)n"{}};}
+\DoxyCodeLine{622             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)t\$query .= \(\backslash\)"{} \(\backslash\)"{} . \$k . \(\backslash\)"{}='\(\backslash\)"{} . \$properties[\$k] . \(\backslash\)"{}'\(\backslash\)"{};\(\backslash\)n"{}};}
+\DoxyCodeLine{623             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)t\$first=false;\(\backslash\)n"{}};}
+\DoxyCodeLine{624             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)t\}\(\backslash\)n"{}};}
+\DoxyCodeLine{625             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)telse\(\backslash\)n"{}};}
+\DoxyCodeLine{626             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)t\{\(\backslash\)n"{}};}
+\DoxyCodeLine{627             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)t\$query .= \(\backslash\)"{}, \(\backslash\)"{} . \$k . \(\backslash\)"{}='\(\backslash\)"{} . \$properties[\$k] . \(\backslash\)"{}'\(\backslash\)"{};\(\backslash\)n"{}};}
+\DoxyCodeLine{628             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)t\}\(\backslash\)n"{}};}
+\DoxyCodeLine{629             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)t\}\(\backslash\)n"{}};}
+\DoxyCodeLine{630             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\};\(\backslash\)n"{}};}
+\DoxyCodeLine{631             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$query .= \(\backslash\)"{} WHERE ID = '\(\backslash\)"{} . \$ID . \(\backslash\)"{}'\(\backslash\)"{};\(\backslash\)n"{}};}
+\DoxyCodeLine{632             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t//Prepare query\(\backslash\)n"{}};}
+\DoxyCodeLine{633             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$stmt = \$this-\/>conn-\/>prepare(\$query);\(\backslash\)n"{}};}
+\DoxyCodeLine{634             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t//Execute Query\(\backslash\)n"{}};}
+\DoxyCodeLine{635             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)tif(\$stmt-\/>execute())\(\backslash\)n"{}};}
+\DoxyCodeLine{636             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\{\(\backslash\)n"{}}; }
+\DoxyCodeLine{637             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)treturn true;\(\backslash\)n"{}};}
+\DoxyCodeLine{638             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\}\(\backslash\)n"{}}; }
+\DoxyCodeLine{639             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)telse\(\backslash\)n"{}}; }
+\DoxyCodeLine{640             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\{\(\backslash\)n"{}}; }
+\DoxyCodeLine{641             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)treturn false;\(\backslash\)n"{}};}
+\DoxyCodeLine{642             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\}\(\backslash\)n"{}}; }
+\DoxyCodeLine{643             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\}\(\backslash\)n"{}};}
+\DoxyCodeLine{644         \}}
+\DoxyCodeLine{645 }
+\DoxyCodeLine{653         \textcolor{keywordtype}{void} \mbox{\hyperlink{class_p_h_p_builder_a24c7483b8053b85cfce6e7f34d902f9c}{createRemove}}()}
+\DoxyCodeLine{654         \{}
+\DoxyCodeLine{655             std::string Description = \textcolor{stringliteral}{"{}Removes a record in "{}} + this-\/>\mbox{\hyperlink{class_p_h_p_builder_a00aff9a97c1811e6819b3091483cece9}{stringToLower}}(this-\/>className) }
+\DoxyCodeLine{656                                     + \textcolor{stringliteral}{"{} by ID"{}};}
+\DoxyCodeLine{657             std::vector<std::pair<std::string, std::string>> Params = \{\};}
+\DoxyCodeLine{658             std::string DetailedDescription = \textcolor{stringliteral}{"{}Prepares and executes a query to delete a record in the "{}} }
+\DoxyCodeLine{659                                             + this-\/>\mbox{\hyperlink{class_p_h_p_builder_a00aff9a97c1811e6819b3091483cece9}{stringToLower}}(this-\/>className) }
+\DoxyCodeLine{660                                             + \textcolor{stringliteral}{"{}table. If successful, returns true."{}};}
+\DoxyCodeLine{661             std::string returnType = \textcolor{stringliteral}{"{}bool"{}};}
+\DoxyCodeLine{662             this-\/>\mbox{\hyperlink{class_p_h_p_builder_ac2ee3f5efe54558a31a7d5eddcd4dd89}{createMethodComment}}(Description, DetailedDescription, Params, returnType);}
+\DoxyCodeLine{663             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)tpublic function remove(): bool \(\backslash\)n"{}};}
+\DoxyCodeLine{664             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\{\(\backslash\)n"{}};}
+\DoxyCodeLine{665             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$query = \(\backslash\)"{}DELETE * FROM\(\backslash\)n"{}};}
+\DoxyCodeLine{666             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)"{} . \$this-\/>table\_name . \(\backslash\)"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{667             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)tWHERE Id = ?\(\backslash\)"{};\(\backslash\)n"{}};}
+\DoxyCodeLine{668             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t//Prepare query\(\backslash\)n"{}};}
+\DoxyCodeLine{669             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$stmt = \$this-\/>conn-\/>prepare(\$query);\(\backslash\)n"{}};}
+\DoxyCodeLine{670             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$this-\/>id=htmlspecialchars(strip\_tags(\$this-\/>id));\(\backslash\)n"{}};}
+\DoxyCodeLine{671             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{672             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t//bind id of reocord to delete\(\backslash\)n"{}};}
+\DoxyCodeLine{673             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\$stmt-\/>bindParam(1, \$this-\/>id);\(\backslash\)n"{}};}
+\DoxyCodeLine{674             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t//Execute Query\(\backslash\)n"{}};}
+\DoxyCodeLine{675             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)tif(\$stmt-\/>execute())\(\backslash\)n"{}};}
+\DoxyCodeLine{676             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\{\(\backslash\)n"{}}; }
+\DoxyCodeLine{677             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)treturn true;\(\backslash\)n"{}};}
+\DoxyCodeLine{678             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\}\(\backslash\)n"{}}; }
+\DoxyCodeLine{679             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)telse\(\backslash\)n"{}}; }
+\DoxyCodeLine{680             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\{\(\backslash\)n"{}}; }
+\DoxyCodeLine{681             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\(\backslash\)treturn false;\(\backslash\)n"{}};}
+\DoxyCodeLine{682             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)t\}\(\backslash\)n"{}}; }
+\DoxyCodeLine{683             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\}\(\backslash\)n"{}};}
+\DoxyCodeLine{684         \}}
+\DoxyCodeLine{685 }
+\DoxyCodeLine{694         std::string \mbox{\hyperlink{class_p_h_p_builder_a00aff9a97c1811e6819b3091483cece9}{stringToLower}}(std::string str)}
+\DoxyCodeLine{695         \{}
+\DoxyCodeLine{696             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i=0; i<str.size(); ++i) }
+\DoxyCodeLine{697             \{}
+\DoxyCodeLine{698                 \textcolor{keywordflow}{if} (isalpha(str[i])) }
+\DoxyCodeLine{699                 \{}
+\DoxyCodeLine{700                     str[i] = tolower(str[i]);}
+\DoxyCodeLine{701                 \}}
+\DoxyCodeLine{702             \}}
+\DoxyCodeLine{703             \textcolor{keywordflow}{return} str; }
+\DoxyCodeLine{704         \}}
+\DoxyCodeLine{710         \textcolor{keywordtype}{void} \mbox{\hyperlink{class_p_h_p_builder_ad17409832cc7bea0f80fe7387f75c2fc}{closing}}()}
+\DoxyCodeLine{711         \{}
+\DoxyCodeLine{712             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\}\(\backslash\)n"{}};}
+\DoxyCodeLine{713             this-\/>out << \textcolor{stringliteral}{"{}?>"{}};}
+\DoxyCodeLine{714         \}}
+\DoxyCodeLine{715 }
+\DoxyCodeLine{726         \textcolor{keywordtype}{void} \mbox{\hyperlink{class_p_h_p_builder_ae0ea2e8fc84b6afa44fce4e1aa63f60c}{createClassFile}}()}
+\DoxyCodeLine{727         \{}
+\DoxyCodeLine{728             std::cout << \textcolor{stringliteral}{"{}Creating opening.\(\backslash\)n"{}}; }
+\DoxyCodeLine{729             this-\/>\mbox{\hyperlink{class_p_h_p_builder_a690d56e99df23e5357ebd66a0f5ec4ca}{opening}}();}
+\DoxyCodeLine{730             std::cout << \textcolor{stringliteral}{"{}Creating Constructor.\(\backslash\)n"{}}; }
+\DoxyCodeLine{731             this-\/>\mbox{\hyperlink{class_p_h_p_builder_a350bae2490e40eb412b8782e2f94dbde}{createConstructor}}();}
+\DoxyCodeLine{732             std::cout << \textcolor{stringliteral}{"{}Creating Read Method.\(\backslash\)n"{}}; }
+\DoxyCodeLine{733             this-\/>\mbox{\hyperlink{class_p_h_p_builder_a9772720d3c101d2bbb93735eb23128d8}{createRead}}();}
+\DoxyCodeLine{734             std::cout << \textcolor{stringliteral}{"{}Creating ReadOne Method.\(\backslash\)n"{}}; }
+\DoxyCodeLine{735             this-\/>\mbox{\hyperlink{class_p_h_p_builder_a3dab69543124c031656e0d64995a0341}{createReadOne}}();}
+\DoxyCodeLine{736             std::cout << \textcolor{stringliteral}{"{}Creating ReadPaging Method.\(\backslash\)n"{}}; }
+\DoxyCodeLine{737             this-\/>\mbox{\hyperlink{class_p_h_p_builder_a5ffe742a236cb926223c6ef9da14814e}{createReadPaging}}();}
+\DoxyCodeLine{738             std::cout << \textcolor{stringliteral}{"{}Creating Count Method.\(\backslash\)n"{}}; }
+\DoxyCodeLine{739             this-\/>\mbox{\hyperlink{class_p_h_p_builder_a9e14b9a5fda86495e3692226f1a63ebe}{createCount}}();}
+\DoxyCodeLine{740             std::cout << \textcolor{stringliteral}{"{}Creating CheckIfExists Method.\(\backslash\)n"{}}; }
+\DoxyCodeLine{741             this-\/>\mbox{\hyperlink{class_p_h_p_builder_a0311d9ddc7fb36c323cf099fc9e3ed15}{createCheckIfExists}}();}
+\DoxyCodeLine{742             std::cout << \textcolor{stringliteral}{"{}Creating Insert Method.\(\backslash\)n"{}}; }
+\DoxyCodeLine{743             this-\/>\mbox{\hyperlink{class_p_h_p_builder_a885ad43ad5bef6d5fff698432d1f337c}{createInsert}}();}
+\DoxyCodeLine{744             std::cout << \textcolor{stringliteral}{"{}Creating Update Method.\(\backslash\)n"{}}; }
+\DoxyCodeLine{745             this-\/>\mbox{\hyperlink{class_p_h_p_builder_a1489dff764121ac3c992441044cceec3}{createUpdate}}();}
+\DoxyCodeLine{746             std::cout << \textcolor{stringliteral}{"{}Creating Remove Method.\(\backslash\)n"{}}; }
+\DoxyCodeLine{747             this-\/>\mbox{\hyperlink{class_p_h_p_builder_a24c7483b8053b85cfce6e7f34d902f9c}{createRemove}}();}
+\DoxyCodeLine{748             std::cout << \textcolor{stringliteral}{"{}Creating Closing Method.\(\backslash\)n"{}}; }
+\DoxyCodeLine{749             this-\/>\mbox{\hyperlink{class_p_h_p_builder_ad17409832cc7bea0f80fe7387f75c2fc}{closing}}();}
+\DoxyCodeLine{750             this-\/>out.close();}
+\DoxyCodeLine{751         \}}
+\DoxyCodeLine{752 }
+\DoxyCodeLine{761         \textcolor{keywordtype}{void} \mbox{\hyperlink{class_p_h_p_builder_a690d56e99df23e5357ebd66a0f5ec4ca}{opening}}()}
+\DoxyCodeLine{762         \{}
+\DoxyCodeLine{763             this-\/>out << \textcolor{stringliteral}{"{}<\(\backslash\)?php \(\backslash\)n"{}};}
+\DoxyCodeLine{764             this-\/>\mbox{\hyperlink{class_p_h_p_builder_aa3b78fac38a7486e545938c7ac4bab69}{createClassComment}}();}
+\DoxyCodeLine{765             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)tclass "{}} << this-\/>className << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{766             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\{\(\backslash\)n"{}};}
+\DoxyCodeLine{767             \textcolor{keywordflow}{for}(std::string f : this-\/>Fields)}
+\DoxyCodeLine{768             \{}
+\DoxyCodeLine{769                 this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)tpublic \$"{}} << f << \textcolor{stringliteral}{"{};\(\backslash\)n"{}};}
+\DoxyCodeLine{770             \}}
+\DoxyCodeLine{771             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)tprivate \$conn;\(\backslash\)n"{}};}
+\DoxyCodeLine{772             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)tprivate \$table\_name = \(\backslash\)"{}"{}} << this-\/>tableName << \textcolor{stringliteral}{"{}\(\backslash\)"{};\(\backslash\)n"{}};}
+\DoxyCodeLine{773             this-\/>out << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{774         \}}
+\DoxyCodeLine{775 \};}
+
+\end{DoxyCode}

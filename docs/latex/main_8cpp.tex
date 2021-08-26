@@ -1,0 +1,263 @@
+\hypertarget{main_8cpp}{}\doxysection{src/main.cpp File Reference}
+\label{main_8cpp}\index{src/main.cpp@{src/main.cpp}}
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$cstring$>$}\newline
+{\ttfamily \#include $<$fstream$>$}\newline
+{\ttfamily \#include $<$sstream$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$regex$>$}\newline
+{\ttfamily \#include \char`\"{}PHPBuilder.\+h\char`\"{}}\newline
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{main_8cpp_a1d15a77091cdc7c511a1e683a4bcd16b}{handle\+Arguments}} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]}, std\+::string \&file\+Name)
+\item 
+bool \mbox{\hyperlink{main_8cpp_a9d3aa96433c354f03ae59b49ea7fcbbe}{validate\+File\+Type}} (std\+::string \&file\+Name)
+\item 
+void \mbox{\hyperlink{main_8cpp_ab635f13d9efa5ff36c58e1ff16b3a414}{check\+For\+Input\+File}} (std\+::string \&file\+Name, int \&error\+Code, std\+::vector$<$ std\+::string $>$ \&arguments)
+\item 
+bool \mbox{\hyperlink{main_8cpp_a3e4d1c8b434033f0e0ae82adc46a065d}{flag\+Exists}} (std\+::string flag, std\+::vector$<$ std\+::string $>$ arguments)
+\item 
+std\+::string \mbox{\hyperlink{main_8cpp_a241bd02db4520139ed704ad907b9a546}{get\+Flag\+Argument}} (std\+::string flag, std\+::vector$<$ std\+::string $>$ arguments)
+\item 
+void \mbox{\hyperlink{main_8cpp_ab2f310d263111b8ceddf7ad763daab8c}{handle\+File}} (std\+::string file\+Name)
+\item 
+std\+::string \mbox{\hyperlink{main_8cpp_aa6a697e189e9fc47de510236e29c9f65}{string\+To\+Lower}} (std\+::string str)
+\item 
+\mbox{\hyperlink{class_p_h_p_builder}{PHPBuilder}} \mbox{\hyperlink{main_8cpp_a05c795eae5cd096c8f70716c8afd7bf1}{parse\+File}} (std\+::ifstream \&input)
+\item 
+std\+::string \mbox{\hyperlink{main_8cpp_a99ecf44271adfdd3fb36a21bdc7c7543}{find\+Field}} (std\+::string line)
+\item 
+std\+::string \mbox{\hyperlink{main_8cpp_a529a895620ff2508a529b47850ecf62d}{find\+Class}} (std\+::string line)
+\item 
+std\+::string \mbox{\hyperlink{main_8cpp_a1574c275b56fb6ed28b96f715a67d268}{find\+Table\+Name}} (std\+::string line)
+\item 
+int \mbox{\hyperlink{main_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{main}} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{main_8cpp_a5848c8e45141e64587f7817c191a4d52}{Supported\+File\+Types}} = \{ \char`\"{}.php\char`\"{}, \char`\"{}.PHP\char`\"{} \}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{main_8cpp_ab635f13d9efa5ff36c58e1ff16b3a414}\label{main_8cpp_ab635f13d9efa5ff36c58e1ff16b3a414}} 
+\index{main.cpp@{main.cpp}!checkForInputFile@{checkForInputFile}}
+\index{checkForInputFile@{checkForInputFile}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{checkForInputFile()}{checkForInputFile()}}
+{\footnotesize\ttfamily void check\+For\+Input\+File (\begin{DoxyParamCaption}\item[{std\+::string \&}]{file\+Name,  }\item[{int \&}]{error\+Code,  }\item[{std\+::vector$<$ std\+::string $>$ \&}]{arguments }\end{DoxyParamCaption})}
+
+Function that checks if -\/l flag exists and if an input file\+Name is provided using the get\+Flag\+Argument. Then it valideates the output\+File\+Type using the validate\+Output\+Type function. If an error is found the error code is set to 1. 
+\begin{DoxyParams}{Parameters}
+{\em output\+File\+Name} & string \\
+\hline
+{\em output\+File\+Type} & File\+Creator\+::\+Output\+Types Enum Value for output type \\
+\hline
+{\em error\+Code} & int \\
+\hline
+{\em arguments} & vector of strings \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{main_8cpp_a529a895620ff2508a529b47850ecf62d}\label{main_8cpp_a529a895620ff2508a529b47850ecf62d}} 
+\index{main.cpp@{main.cpp}!findClass@{findClass}}
+\index{findClass@{findClass}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{findClass()}{findClass()}}
+{\footnotesize\ttfamily std\+::string find\+Class (\begin{DoxyParamCaption}\item[{std\+::string}]{line }\end{DoxyParamCaption})}
+
+Finds the class name in an input php file
+
+Uses a regular expression to retrieve the name of the class
+
+
+\begin{DoxyParams}{Parameters}
+{\em line} & string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+string 
+\end{DoxyReturn}
+\mbox{\Hypertarget{main_8cpp_a99ecf44271adfdd3fb36a21bdc7c7543}\label{main_8cpp_a99ecf44271adfdd3fb36a21bdc7c7543}} 
+\index{main.cpp@{main.cpp}!findField@{findField}}
+\index{findField@{findField}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{findField()}{findField()}}
+{\footnotesize\ttfamily std\+::string find\+Field (\begin{DoxyParamCaption}\item[{std\+::string}]{line }\end{DoxyParamCaption})}
+
+Finds fields in each line of input file
+
+Uses a regular expression to retrieve all public properties in a PHP class
+
+
+\begin{DoxyParams}{Parameters}
+{\em line} & string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+string 
+\end{DoxyReturn}
+\mbox{\Hypertarget{main_8cpp_a1574c275b56fb6ed28b96f715a67d268}\label{main_8cpp_a1574c275b56fb6ed28b96f715a67d268}} 
+\index{main.cpp@{main.cpp}!findTableName@{findTableName}}
+\index{findTableName@{findTableName}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{findTableName()}{findTableName()}}
+{\footnotesize\ttfamily std\+::string find\+Table\+Name (\begin{DoxyParamCaption}\item[{std\+::string}]{line }\end{DoxyParamCaption})}
+
+Finds the name of the table an input php file
+
+Uses a regular expression to retrieve the name of the table identified with the table\+\_\+name property
+
+
+\begin{DoxyParams}{Parameters}
+{\em line} & string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+string 
+\end{DoxyReturn}
+\mbox{\Hypertarget{main_8cpp_a3e4d1c8b434033f0e0ae82adc46a065d}\label{main_8cpp_a3e4d1c8b434033f0e0ae82adc46a065d}} 
+\index{main.cpp@{main.cpp}!flagExists@{flagExists}}
+\index{flagExists@{flagExists}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{flagExists()}{flagExists()}}
+{\footnotesize\ttfamily bool flag\+Exists (\begin{DoxyParamCaption}\item[{std\+::string}]{flag,  }\item[{std\+::vector$<$ std\+::string $>$}]{arguments }\end{DoxyParamCaption})}
+
+Function that checks if a flag exists in a set of vector of provided arguments. Returns true if so and false if not. 
+\begin{DoxyParams}{Parameters}
+{\em flag} & string \\
+\hline
+{\em arguments} & vector of strings \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool 
+\end{DoxyReturn}
+\mbox{\Hypertarget{main_8cpp_a241bd02db4520139ed704ad907b9a546}\label{main_8cpp_a241bd02db4520139ed704ad907b9a546}} 
+\index{main.cpp@{main.cpp}!getFlagArgument@{getFlagArgument}}
+\index{getFlagArgument@{getFlagArgument}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{getFlagArgument()}{getFlagArgument()}}
+{\footnotesize\ttfamily std\+::string get\+Flag\+Argument (\begin{DoxyParamCaption}\item[{std\+::string}]{flag,  }\item[{std\+::vector$<$ std\+::string $>$}]{arguments }\end{DoxyParamCaption})}
+
+Function that checks if a flag exists in a vector of provided arguments and returns the argument immediately after it. Returns \char`\"{}-\/1\char`\"{} if not found. ~\newline
+ 
+\begin{DoxyParams}{Parameters}
+{\em flag} & string \\
+\hline
+{\em arguments} & vector of strings \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+string 
+\end{DoxyReturn}
+\mbox{\Hypertarget{main_8cpp_a1d15a77091cdc7c511a1e683a4bcd16b}\label{main_8cpp_a1d15a77091cdc7c511a1e683a4bcd16b}} 
+\index{main.cpp@{main.cpp}!handleArguments@{handleArguments}}
+\index{handleArguments@{handleArguments}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{handleArguments()}{handleArguments()}}
+{\footnotesize\ttfamily int handle\+Arguments (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]},  }\item[{std\+::string \&}]{file\+Name }\end{DoxyParamCaption})}
+
+Function that handles user provided arguments Checks to make sure required file name, -\/l flag and input file name are set by the user and if not errors are generated. Validates file\+Name with validate\+File\+Type function they are supported and generates an error if not. 
+\begin{DoxyParams}{Parameters}
+{\em argc} & integer for total number of arguments \\
+\hline
+{\em argv} & a character array of arguments \\
+\hline
+{\em file\+Name} & string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int 
+\end{DoxyReturn}
+\mbox{\Hypertarget{main_8cpp_ab2f310d263111b8ceddf7ad763daab8c}\label{main_8cpp_ab2f310d263111b8ceddf7ad763daab8c}} 
+\index{main.cpp@{main.cpp}!handleFile@{handleFile}}
+\index{handleFile@{handleFile}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{handleFile()}{handleFile()}}
+{\footnotesize\ttfamily void handle\+File (\begin{DoxyParamCaption}\item[{std\+::string}]{file\+Name }\end{DoxyParamCaption})}
+
+Loads the input file, parses the file and builds the new PHP Class File
+
+Creates an input file handle with the file\+Name. A \mbox{\hyperlink{class_p_h_p_builder}{PHPBuilder}} object is created using parse\+File and then a PHP Class File is built using the create\+Class\+File method.
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+Name} & string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{main_8cpp_a0ddf1224851353fc92bfbff6f499fa97}\label{main_8cpp_a0ddf1224851353fc92bfbff6f499fa97}} 
+\index{main.cpp@{main.cpp}!main@{main}}
+\index{main@{main}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
+
+Main function to handles input file to create a PHP class file with CRUD methods
+
+Main function that handles provided arguments with the handle\+Arguments function, then creates a php class file with CRUD methods using the handle\+File function. 
+\begin{DoxyParams}{Parameters}
+{\em argc} & integer for total number of arguments \\
+\hline
+{\em argv} & a character array of arguments \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int 
+\end{DoxyReturn}
+\mbox{\Hypertarget{main_8cpp_a05c795eae5cd096c8f70716c8afd7bf1}\label{main_8cpp_a05c795eae5cd096c8f70716c8afd7bf1}} 
+\index{main.cpp@{main.cpp}!parseFile@{parseFile}}
+\index{parseFile@{parseFile}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{parseFile()}{parseFile()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_p_h_p_builder}{PHPBuilder}} parse\+File (\begin{DoxyParamCaption}\item[{std\+::ifstream \&}]{input }\end{DoxyParamCaption})}
+
+Builds a PHP class file by parsing an input file.
+
+This function parses the file line by line and retrieves the class name with the find\+Class function, and the table\+Name using the find\+Tablename function and the fields using the find\+Field function. The class\+Name, fields, and table\+Name were used to create a \mbox{\hyperlink{class_p_h_p_builder}{PHPBuilder}} object.
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & ifstream \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{class_p_h_p_builder}{PHPBuilder}} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{main_8cpp_aa6a697e189e9fc47de510236e29c9f65}\label{main_8cpp_aa6a697e189e9fc47de510236e29c9f65}} 
+\index{main.cpp@{main.cpp}!stringToLower@{stringToLower}}
+\index{stringToLower@{stringToLower}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{stringToLower()}{stringToLower()}}
+{\footnotesize\ttfamily std\+::string string\+To\+Lower (\begin{DoxyParamCaption}\item[{std\+::string}]{str }\end{DoxyParamCaption})}
+
+Function that converts a string to lower case
+
+Taken from //http\+://cplusplus.com/forum/beginner/218745/ Loops through characters in string and converts each character to lower. 
+\begin{DoxyParams}{Parameters}
+{\em str} & string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+string 
+\end{DoxyReturn}
+\mbox{\Hypertarget{main_8cpp_a9d3aa96433c354f03ae59b49ea7fcbbe}\label{main_8cpp_a9d3aa96433c354f03ae59b49ea7fcbbe}} 
+\index{main.cpp@{main.cpp}!validateFileType@{validateFileType}}
+\index{validateFileType@{validateFileType}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{validateFileType()}{validateFileType()}}
+{\footnotesize\ttfamily bool validate\+File\+Type (\begin{DoxyParamCaption}\item[{std\+::string \&}]{file\+Name }\end{DoxyParamCaption})}
+
+Function that checks if a file\+Name has an extension in the Supported\+File\+Types vector and returns true if sp and false if not. 
+\begin{DoxyParams}{Parameters}
+{\em file\+Name} & string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool 
+\end{DoxyReturn}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{main_8cpp_a5848c8e45141e64587f7817c191a4d52}\label{main_8cpp_a5848c8e45141e64587f7817c191a4d52}} 
+\index{main.cpp@{main.cpp}!SupportedFileTypes@{SupportedFileTypes}}
+\index{SupportedFileTypes@{SupportedFileTypes}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{SupportedFileTypes}{SupportedFileTypes}}
+{\footnotesize\ttfamily std\+::vector$<$std\+::string$>$ Supported\+File\+Types = \{ \char`\"{}.php\char`\"{}, \char`\"{}.PHP\char`\"{} \}}
+
+A vector of strings with extensions of supported input file types 

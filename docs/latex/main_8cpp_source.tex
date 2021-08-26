@@ -1,0 +1,231 @@
+\hypertarget{main_8cpp_source}{}\doxysection{main.\+cpp}
+\label{main_8cpp_source}\index{src/main.cpp@{src/main.cpp}}
+\mbox{\hyperlink{main_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00001}00001 \textcolor{comment}{/*********************************************************************************}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00002}00002 \textcolor{comment}{ * PHPClass Builder}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00003}00003 \textcolor{comment}{ *}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00004}00004 \textcolor{comment}{ * Reads an incomplete php class file and generates a more complete PHP Class with}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00005}00005 \textcolor{comment}{ *  CRUD functions.}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00006}00006 \textcolor{comment}{ *}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00007}00007 \textcolor{comment}{ *  ******************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00008}00008 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00009}00009 \textcolor{preprocessor}{\#include <cstring>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00010}00010 \textcolor{preprocessor}{\#include <fstream>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00011}00011 \textcolor{preprocessor}{\#include <sstream>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00012}00012 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00013}00013 \textcolor{preprocessor}{\#include <regex>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00014}00014 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{_p_h_p_builder_8h}{PHPBuilder.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00015}00015 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00016}00016 \textcolor{keywordtype}{int} \mbox{\hyperlink{main_8cpp_a1d15a77091cdc7c511a1e683a4bcd16b}{handleArguments}}(\textcolor{keywordtype}{int} argc, \textcolor{keywordtype}{char} *argv[], std::string \&fileName);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00017}00017 \textcolor{keywordtype}{bool} \mbox{\hyperlink{main_8cpp_a9d3aa96433c354f03ae59b49ea7fcbbe}{validateFileType}}(std::string \&fileName);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00018}00018 \textcolor{keywordtype}{void} \mbox{\hyperlink{main_8cpp_ab635f13d9efa5ff36c58e1ff16b3a414}{checkForInputFile}}(std::string \&fileName, \textcolor{keywordtype}{int} \&errorCode, std::vector<std::string> \&arguments);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00019}00019 \textcolor{keywordtype}{bool} \mbox{\hyperlink{main_8cpp_a3e4d1c8b434033f0e0ae82adc46a065d}{flagExists}}(std::string flag, std::vector<std::string> arguments);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00020}00020 std::string \mbox{\hyperlink{main_8cpp_a241bd02db4520139ed704ad907b9a546}{getFlagArgument}}(std::string flag, std::vector<std::string> arguments);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00021}00021 \textcolor{keywordtype}{void} \mbox{\hyperlink{main_8cpp_ab2f310d263111b8ceddf7ad763daab8c}{handleFile}}(std::string fileName);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00022}00022 std::string \mbox{\hyperlink{main_8cpp_aa6a697e189e9fc47de510236e29c9f65}{stringToLower}}(std::string str);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00023}00023 PHPBuilder \mbox{\hyperlink{main_8cpp_a05c795eae5cd096c8f70716c8afd7bf1}{parseFile}}(std::ifstream \&input);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00024}00024 std::string \mbox{\hyperlink{main_8cpp_a99ecf44271adfdd3fb36a21bdc7c7543}{findField}}(std::string line);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00025}00025 std::string \mbox{\hyperlink{main_8cpp_a529a895620ff2508a529b47850ecf62d}{findClass}}(std::string line);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00026}00026 std::string \mbox{\hyperlink{main_8cpp_a1574c275b56fb6ed28b96f715a67d268}{findTableName}}(std::string line);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00027}00027 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00031}\mbox{\hyperlink{main_8cpp_a5848c8e45141e64587f7817c191a4d52}{00031}} std::vector<std::string> \mbox{\hyperlink{main_8cpp_a5848c8e45141e64587f7817c191a4d52}{SupportedFileTypes}} = \{ \textcolor{stringliteral}{"{}.php"{}}, \textcolor{stringliteral}{"{}.PHP"{}} \};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00032}00032 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00045}\mbox{\hyperlink{main_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{00045}} \textcolor{keywordtype}{int} \mbox{\hyperlink{main_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{main}}(\textcolor{keywordtype}{int} argc, \textcolor{keywordtype}{char} *argv[])}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00046}00046 \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00047}00047     std::string fileName; }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00048}00048     \textcolor{comment}{//parse arguments}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00049}00049     \textcolor{keywordtype}{int} errorCode = \mbox{\hyperlink{main_8cpp_a1d15a77091cdc7c511a1e683a4bcd16b}{handleArguments}}(argc, argv, fileName);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00050}00050     \textcolor{keywordflow}{if}(errorCode == 0)}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00051}00051     \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00052}00052         \mbox{\hyperlink{main_8cpp_ab2f310d263111b8ceddf7ad763daab8c}{handleFile}}(fileName);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00053}00053     \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00054}00054     \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00055}00055 \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00056}00056 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00069}\mbox{\hyperlink{main_8cpp_a1d15a77091cdc7c511a1e683a4bcd16b}{00069}} \textcolor{keywordtype}{int} \mbox{\hyperlink{main_8cpp_a1d15a77091cdc7c511a1e683a4bcd16b}{handleArguments}}(\textcolor{keywordtype}{int} argc, \textcolor{keywordtype}{char} *argv[], std::string \&fileName)}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00070}00070 \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00071}00071     \textcolor{keywordtype}{int} errorCode = 0; }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00072}00072     std::vector<std::string> arguments(argv + 1, argv + argc);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00073}00073     \textcolor{keywordflow}{if}(argc > 0)}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00074}00074     \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00075}00075         \mbox{\hyperlink{main_8cpp_ab635f13d9efa5ff36c58e1ff16b3a414}{checkForInputFile}}(fileName, errorCode, arguments);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00076}00076     \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00077}00077     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00078}00078     \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00079}00079         std::cout << \textcolor{stringliteral}{"{}PHPClassBuilder command requires a -\/l flag with input file name. \(\backslash\)n Program will now exit. \(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00080}00080         errorCode = 1;    }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00081}00081     \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00082}00082     \textcolor{keywordflow}{return} errorCode; }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00083}00083 \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00084}00084 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00085}00085 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00093}\mbox{\hyperlink{main_8cpp_a9d3aa96433c354f03ae59b49ea7fcbbe}{00093}} \textcolor{keywordtype}{bool} \mbox{\hyperlink{main_8cpp_a9d3aa96433c354f03ae59b49ea7fcbbe}{validateFileType}}(std::string \&fileName)}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00094}00094 \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00095}00095     std::string fileNameLC = \mbox{\hyperlink{main_8cpp_aa6a697e189e9fc47de510236e29c9f65}{stringToLower}}(fileName);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00096}00096     \textcolor{keywordflow}{for}(std::string f : \mbox{\hyperlink{main_8cpp_a5848c8e45141e64587f7817c191a4d52}{SupportedFileTypes}})}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00097}00097     \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00098}00098         \textcolor{keywordflow}{if}(fileNameLC.find(f, fileNameLC.size()-\/4) != std::string::npos)}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00099}00099         \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00100}00100             \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00101}00101         \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00102}00102     \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00103}00103     \textcolor{keywordflow}{return} \textcolor{keyword}{false}; }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00104}00104 \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00105}00105 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00115}\mbox{\hyperlink{main_8cpp_aa6a697e189e9fc47de510236e29c9f65}{00115}} std::string \mbox{\hyperlink{main_8cpp_aa6a697e189e9fc47de510236e29c9f65}{stringToLower}}(std::string str)}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00116}00116 \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00117}00117     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i=0; i<str.size(); ++i) }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00118}00118     \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00119}00119         \textcolor{keywordflow}{if} (isalpha(str[i])) }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00120}00120         \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00121}00121             str[i] = tolower(str[i]);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00122}00122         \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00123}00123     \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00124}00124     \textcolor{keywordflow}{return} str; }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00125}00125 \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00126}00126 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00139}\mbox{\hyperlink{main_8cpp_a05c795eae5cd096c8f70716c8afd7bf1}{00139}} PHPBuilder \mbox{\hyperlink{main_8cpp_a05c795eae5cd096c8f70716c8afd7bf1}{parseFile}}(std::ifstream \&input)}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00140}00140 \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00141}00141     std::vector<std::string> fields;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00142}00142     std::string className; }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00143}00143     std::string tableName;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00144}00144     std::string line; }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00145}00145     std::string f;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00146}00146     \textcolor{keywordtype}{int} i = 1; }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00147}00147     \textcolor{keywordflow}{for}(std::string line; std::getline(input, line); )}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00148}00148     \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00149}00149         \textcolor{keywordflow}{if}(\mbox{\hyperlink{main_8cpp_a529a895620ff2508a529b47850ecf62d}{findClass}}(line) != \textcolor{stringliteral}{"{}"{}})\{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00150}00150             className = \mbox{\hyperlink{main_8cpp_a529a895620ff2508a529b47850ecf62d}{findClass}}(line);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00151}00151         \}; }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00152}00152         f = \mbox{\hyperlink{main_8cpp_a99ecf44271adfdd3fb36a21bdc7c7543}{findField}}(line);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00153}00153         \textcolor{keywordflow}{if}(f != \textcolor{stringliteral}{"{}"{}})\{fields.push\_back(f);\}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00154}00154         \textcolor{keywordflow}{if}(\mbox{\hyperlink{main_8cpp_a1574c275b56fb6ed28b96f715a67d268}{findTableName}}(line) != \textcolor{stringliteral}{"{}"{}})\{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00155}00155             tableName = \mbox{\hyperlink{main_8cpp_a1574c275b56fb6ed28b96f715a67d268}{findTableName}}(line);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00156}00156         \}; }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00157}00157         i++; }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00158}00158     \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00159}00159     std::cout << \textcolor{stringliteral}{"{}Class Name: "{}}<< className << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00160}00160     std::cout << \textcolor{stringliteral}{"{}Table name: "{}} << tableName << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00161}00161     \textcolor{keywordtype}{bool} first = \textcolor{keyword}{true}; }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00162}00162     \textcolor{keywordflow}{for}(std::string field : fields) }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00163}00163     \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00164}00164         \textcolor{keywordflow}{if}(!first)\{std::cout << \textcolor{stringliteral}{"{}, "{}};\}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00165}00165         std::cout << field;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00166}00166         first = \textcolor{keyword}{false}; }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00167}00167     \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00168}00168     std::cout << \textcolor{stringliteral}{"{}\(\backslash\)n"{}}; }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00169}00169     PHPBuilder php = PHPBuilder(className, fields, tableName);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00170}00170     \textcolor{keywordflow}{return} php;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00171}00171 \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00172}00172 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00182}\mbox{\hyperlink{main_8cpp_a99ecf44271adfdd3fb36a21bdc7c7543}{00182}} std::string \mbox{\hyperlink{main_8cpp_a99ecf44271adfdd3fb36a21bdc7c7543}{findField}}(std::string line)}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00183}00183 \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00184}00184     std::regex rgx(\textcolor{stringliteral}{"{}public \(\backslash\)\(\backslash\)\$(.*);"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00185}00185     std::smatch matches;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00186}00186     \textcolor{keywordflow}{if}(std::regex\_search(line, matches, rgx))}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00187}00187     \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00188}00188         \textcolor{keywordflow}{return} matches[1]; }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00189}00189     \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00190}00190     \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}"{}}; }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00191}00191 \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00192}00192 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00202}\mbox{\hyperlink{main_8cpp_a529a895620ff2508a529b47850ecf62d}{00202}} std::string \mbox{\hyperlink{main_8cpp_a529a895620ff2508a529b47850ecf62d}{findClass}}(std::string line)}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00203}00203 \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00204}00204     std::regex rgx(\textcolor{stringliteral}{"{}Class (.*)\(\backslash\)\(\backslash\)\{"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00205}00205     std::smatch matches;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00206}00206     \textcolor{keywordflow}{if}(std::regex\_search(line, matches, rgx))}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00207}00207     \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00208}00208         \textcolor{keywordflow}{return} matches[1]; }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00209}00209     \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00210}00210     \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}"{}}; }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00211}00211 \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00212}00212 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00223}\mbox{\hyperlink{main_8cpp_a1574c275b56fb6ed28b96f715a67d268}{00223}} std::string \mbox{\hyperlink{main_8cpp_a1574c275b56fb6ed28b96f715a67d268}{findTableName}}(std::string line)}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00224}00224 \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00225}00225     std::regex rgx(\textcolor{stringliteral}{"{}private \(\backslash\)\(\backslash\)\$table\_name = \(\backslash\)"{}(.*)\(\backslash\)"{};"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00226}00226     std::smatch matches;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00227}00227     \textcolor{keywordflow}{if}(std::regex\_search(line, matches, rgx))}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00228}00228     \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00229}00229         \textcolor{keywordflow}{return} matches[1]; }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00230}00230     \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00231}00231     \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}"{}}; }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00232}00232 \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00233}00233 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00246}\mbox{\hyperlink{main_8cpp_ab2f310d263111b8ceddf7ad763daab8c}{00246}} \textcolor{keywordtype}{void} \mbox{\hyperlink{main_8cpp_ab2f310d263111b8ceddf7ad763daab8c}{handleFile}}(std::string fileName)}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00247}00247 \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00248}00248     \textcolor{comment}{//load file}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00249}00249     std::ifstream input(fileName);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00250}00250     \textcolor{comment}{//read file}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00251}00251     PHPBuilder phpbuilder = \mbox{\hyperlink{main_8cpp_a05c795eae5cd096c8f70716c8afd7bf1}{parseFile}}(input);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00252}00252     std::cout << \textcolor{stringliteral}{"{}\(\backslash\)n\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00253}00253     std::cout << \textcolor{stringliteral}{"{}Creating PHP File \(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00254}00254     std::cout << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00255}00255     phpbuilder.createClassFile();}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00256}00256     input.close(); }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00257}00257     std::cout << phpbuilder.getFileName() << \textcolor{stringliteral}{"{} has been created.\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00258}00258 \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00259}00259 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00268}\mbox{\hyperlink{main_8cpp_a3e4d1c8b434033f0e0ae82adc46a065d}{00268}} \textcolor{keywordtype}{bool} \mbox{\hyperlink{main_8cpp_a3e4d1c8b434033f0e0ae82adc46a065d}{flagExists}}(std::string flag, std::vector<std::string> arguments)}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00269}00269 \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00270}00270     \textcolor{keywordflow}{for}(std::string f : arguments)}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00271}00271     \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00272}00272         \textcolor{keywordflow}{if}(f == flag)}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00273}00273         \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00274}00274             \textcolor{keywordflow}{return} \textcolor{keyword}{true}; }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00275}00275         \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00276}00276     \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00277}00277     \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00278}00278 \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00279}00279 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00289}\mbox{\hyperlink{main_8cpp_a241bd02db4520139ed704ad907b9a546}{00289}} std::string \mbox{\hyperlink{main_8cpp_a241bd02db4520139ed704ad907b9a546}{getFlagArgument}}(std::string flag, std::vector<std::string> arguments)}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00290}00290 \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00291}00291     std::string arg; }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00292}00292     \textcolor{keywordtype}{int} i = 0;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00293}00293     \textcolor{keywordflow}{for}(std::string f : arguments)}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00294}00294     \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00295}00295         \textcolor{keywordflow}{if}(f == flag)}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00296}00296         \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00297}00297             \textcolor{keywordflow}{return} arguments[i+1];}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00298}00298         \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00299}00299         i++;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00300}00300     \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00301}00301     \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}-\/1"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00302}00302 \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00303}00303 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00317}\mbox{\hyperlink{main_8cpp_ab635f13d9efa5ff36c58e1ff16b3a414}{00317}} \textcolor{keywordtype}{void} \mbox{\hyperlink{main_8cpp_ab635f13d9efa5ff36c58e1ff16b3a414}{checkForInputFile}}(std::string \&fileName, \textcolor{keywordtype}{int} \&errorCode, std::vector<std::string> \&arguments)}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00318}00318 \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00319}00319     \textcolor{keywordflow}{if}(\mbox{\hyperlink{main_8cpp_a3e4d1c8b434033f0e0ae82adc46a065d}{flagExists}}(\textcolor{stringliteral}{"{}-\/l"{}}, arguments))}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00320}00320     \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00321}00321         fileName = \mbox{\hyperlink{main_8cpp_a241bd02db4520139ed704ad907b9a546}{getFlagArgument}}(\textcolor{stringliteral}{"{}-\/l"{}}, arguments);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00322}00322         \textcolor{comment}{//check if parameter provided}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00323}00323         \textcolor{keywordflow}{if}(fileName != \textcolor{stringliteral}{"{}-\/1"{}})}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00324}00324         \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00325}00325             \textcolor{keywordflow}{if}(!\mbox{\hyperlink{main_8cpp_a9d3aa96433c354f03ae59b49ea7fcbbe}{validateFileType}}(fileName))}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00326}00326             \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00327}00327                 std::cout << \textcolor{stringliteral}{"{}Error: Invalid File Type (Only "{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00328}00328                 \textcolor{keywordtype}{bool} first = \textcolor{keyword}{true}; }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00329}00329                 \textcolor{keywordflow}{for}(std::string f : \mbox{\hyperlink{main_8cpp_a5848c8e45141e64587f7817c191a4d52}{SupportedFileTypes}})}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00330}00330                 \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00331}00331                     \textcolor{keywordflow}{if}(!first)\{std::cout << \textcolor{stringliteral}{"{}, "{}};\}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00332}00332                     std::cout << f;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00333}00333                     first = \textcolor{keyword}{false}; }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00334}00334                 \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00335}00335                 std::cout << \textcolor{stringliteral}{"{} outputs can be generated.)"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00336}00336                 errorCode = 1; }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00337}00337             \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00338}00338         \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00339}00339         \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00340}00340         \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00341}00341             std::cout << \textcolor{stringliteral}{"{}The -\/l parameter requires an input filename. Program will now exit. \(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00342}00342             errorCode = 1; }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00343}00343         \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00344}00344     \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00345}00345     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00346}00346     \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00347}00347         std::cout << \textcolor{stringliteral}{"{}The -\/l parameter with an input file name is required. Program will now exit. \(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00348}00348         errorCode = 1; }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00349}00349     \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00350}00350 \}}
+
+\end{DoxyCode}

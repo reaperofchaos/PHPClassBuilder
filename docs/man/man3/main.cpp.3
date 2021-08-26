@@ -1,0 +1,279 @@
+.TH "src/main.cpp" 3 "Wed Aug 25 2021" "PHPClassBuilder" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+src/main.cpp
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <iostream>\fP
+.br
+\fC#include <cstring>\fP
+.br
+\fC#include <fstream>\fP
+.br
+\fC#include <sstream>\fP
+.br
+\fC#include <vector>\fP
+.br
+\fC#include <regex>\fP
+.br
+\fC#include 'PHPBuilder\&.h'\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBhandleArguments\fP (int argc, char *argv[], std::string &fileName)"
+.br
+.ti -1c
+.RI "bool \fBvalidateFileType\fP (std::string &fileName)"
+.br
+.ti -1c
+.RI "void \fBcheckForInputFile\fP (std::string &fileName, int &errorCode, std::vector< std::string > &arguments)"
+.br
+.ti -1c
+.RI "bool \fBflagExists\fP (std::string flag, std::vector< std::string > arguments)"
+.br
+.ti -1c
+.RI "std::string \fBgetFlagArgument\fP (std::string flag, std::vector< std::string > arguments)"
+.br
+.ti -1c
+.RI "void \fBhandleFile\fP (std::string fileName)"
+.br
+.ti -1c
+.RI "std::string \fBstringToLower\fP (std::string str)"
+.br
+.ti -1c
+.RI "\fBPHPBuilder\fP \fBparseFile\fP (std::ifstream &input)"
+.br
+.ti -1c
+.RI "std::string \fBfindField\fP (std::string line)"
+.br
+.ti -1c
+.RI "std::string \fBfindClass\fP (std::string line)"
+.br
+.ti -1c
+.RI "std::string \fBfindTableName\fP (std::string line)"
+.br
+.ti -1c
+.RI "int \fBmain\fP (int argc, char *argv[])"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "std::vector< std::string > \fBSupportedFileTypes\fP = { '\&.php', '\&.PHP' }"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "void checkForInputFile (std::string & fileName, int & errorCode, std::vector< std::string > & arguments)"
+Function that checks if -l flag exists and if an input fileName is provided using the getFlagArgument\&. Then it valideates the outputFileType using the validateOutputType function\&. If an error is found the error code is set to 1\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIoutputFileName\fP string 
+.br
+\fIoutputFileType\fP FileCreator::OutputTypes Enum Value for output type 
+.br
+\fIerrorCode\fP int 
+.br
+\fIarguments\fP vector of strings 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+void 
+.RE
+.PP
+
+.SS "std::string findClass (std::string line)"
+Finds the class name in an input php file
+.PP
+Uses a regular expression to retrieve the name of the class
+.PP
+\fBParameters\fP
+.RS 4
+\fIline\fP string 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+string 
+.RE
+.PP
+
+.SS "std::string findField (std::string line)"
+Finds fields in each line of input file
+.PP
+Uses a regular expression to retrieve all public properties in a PHP class
+.PP
+\fBParameters\fP
+.RS 4
+\fIline\fP string 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+string 
+.RE
+.PP
+
+.SS "std::string findTableName (std::string line)"
+Finds the name of the table an input php file
+.PP
+Uses a regular expression to retrieve the name of the table identified with the table_name property
+.PP
+\fBParameters\fP
+.RS 4
+\fIline\fP string 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+string 
+.RE
+.PP
+
+.SS "bool flagExists (std::string flag, std::vector< std::string > arguments)"
+Function that checks if a flag exists in a set of vector of provided arguments\&. Returns true if so and false if not\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIflag\fP string 
+.br
+\fIarguments\fP vector of strings 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+bool 
+.RE
+.PP
+
+.SS "std::string getFlagArgument (std::string flag, std::vector< std::string > arguments)"
+Function that checks if a flag exists in a vector of provided arguments and returns the argument immediately after it\&. Returns '-1' if not found\&. 
+.br
+ 
+.PP
+\fBParameters\fP
+.RS 4
+\fIflag\fP string 
+.br
+\fIarguments\fP vector of strings 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+string 
+.RE
+.PP
+
+.SS "int handleArguments (int argc, char * argv[], std::string & fileName)"
+Function that handles user provided arguments Checks to make sure required file name, -l flag and input file name are set by the user and if not errors are generated\&. Validates fileName with validateFileType function they are supported and generates an error if not\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIargc\fP integer for total number of arguments 
+.br
+\fIargv\fP a character array of arguments 
+.br
+\fIfileName\fP string 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+int 
+.RE
+.PP
+
+.SS "void handleFile (std::string fileName)"
+Loads the input file, parses the file and builds the new PHP Class File
+.PP
+Creates an input file handle with the fileName\&. A \fBPHPBuilder\fP object is created using parseFile and then a PHP Class File is built using the createClassFile method\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fIfileName\fP string 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+void 
+.RE
+.PP
+
+.SS "int main (int argc, char * argv[])"
+Main function to handles input file to create a PHP class file with CRUD methods
+.PP
+Main function that handles provided arguments with the handleArguments function, then creates a php class file with CRUD methods using the handleFile function\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIargc\fP integer for total number of arguments 
+.br
+\fIargv\fP a character array of arguments 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+int 
+.RE
+.PP
+
+.SS "\fBPHPBuilder\fP parseFile (std::ifstream & input)"
+Builds a PHP class file by parsing an input file\&.
+.PP
+This function parses the file line by line and retrieves the class name with the findClass function, and the tableName using the findTablename function and the fields using the findField function\&. The className, fields, and tableName were used to create a \fBPHPBuilder\fP object\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fIinput\fP ifstream 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+\fBPHPBuilder\fP 
+.RE
+.PP
+
+.SS "std::string stringToLower (std::string str)"
+Function that converts a string to lower case
+.PP
+Taken from //http://cplusplus\&.com/forum/beginner/218745/ Loops through characters in string and converts each character to lower\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIstr\fP string 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+string 
+.RE
+.PP
+
+.SS "bool validateFileType (std::string & fileName)"
+Function that checks if a fileName has an extension in the SupportedFileTypes vector and returns true if sp and false if not\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIfileName\fP string 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+bool 
+.RE
+.PP
+
+.SH "Variable Documentation"
+.PP 
+.SS "std::vector<std::string> SupportedFileTypes = { '\&.php', '\&.PHP' }"
+A vector of strings with extensions of supported input file types 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for PHPClassBuilder from the source code\&.

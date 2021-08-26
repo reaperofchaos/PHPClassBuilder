@@ -1,0 +1,316 @@
+\hypertarget{class_p_h_p_builder}{}\doxysection{PHPBuilder Class Reference}
+\label{class_p_h_p_builder}\index{PHPBuilder@{PHPBuilder}}
+
+
+{\ttfamily \#include $<$PHPBuilder.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_p_h_p_builder_acce2389633a33e65583b2e7d3433d23b}{PHPBuilder}} ()
+\item 
+\mbox{\hyperlink{class_p_h_p_builder_a0350a1007d4a54164300049d14dfd5b9}{PHPBuilder}} (std\+::string class\+Name, std\+::vector$<$ std\+::string $>$ Fields, std\+::string table\+Name)
+\item 
+std\+::string \mbox{\hyperlink{class_p_h_p_builder_a28cd22477a9bba13d7f89fa7fde5efc2}{get\+Class\+Name}} ()
+\item 
+std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{class_p_h_p_builder_a44e4cffba56befd6b3d1acdd600d338b}{get\+Fields}} ()
+\item 
+std\+::string \mbox{\hyperlink{class_p_h_p_builder_a20c75367d7449f53d657115b598dce5c}{get\+Table\+Name}} ()
+\item 
+std\+::string \mbox{\hyperlink{class_p_h_p_builder_ac4cf9a3ce2ee4e60486543f97c52478c}{get\+File\+Name}} ()
+\item 
+std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{class_p_h_p_builder_ad9e8fb9709dbeaa03b92578dc831648f}{check\+If\+Line\+Is\+Too\+Long}} (std\+::string line)
+\item 
+void \mbox{\hyperlink{class_p_h_p_builder_ac2ee3f5efe54558a31a7d5eddcd4dd89}{create\+Method\+Comment}} (std\+::string Description, std\+::string Detailed\+Description, std\+::vector$<$ std\+::pair$<$ std\+::string, std\+::string $>$ $>$ Params, std\+::string return\+Type)
+\item 
+void \mbox{\hyperlink{class_p_h_p_builder_aa3b78fac38a7486e545938c7ac4bab69}{create\+Class\+Comment}} ()
+\item 
+void \mbox{\hyperlink{class_p_h_p_builder_a350bae2490e40eb412b8782e2f94dbde}{create\+Constructor}} ()
+\item 
+void \mbox{\hyperlink{class_p_h_p_builder_a0311d9ddc7fb36c323cf099fc9e3ed15}{create\+Check\+If\+Exists}} ()
+\item 
+void \mbox{\hyperlink{class_p_h_p_builder_a90a8dbefc99187fc93967fcdf83cc89a}{create\+Get\+If\+Exists}} ()
+\item 
+void \mbox{\hyperlink{class_p_h_p_builder_a4959f935d0d88559082567ae80c69bdf}{create\+Bindings}} ()
+\item 
+void \mbox{\hyperlink{class_p_h_p_builder_ae368f8bb88c0f0ad9c6f21967e051d35}{set\+Object\+Properties\+From\+Query}} ()
+\item 
+void \mbox{\hyperlink{class_p_h_p_builder_ad4357c586917b0600d9b3acc8055db49}{sanitize\+Fields}} ()
+\item 
+void \mbox{\hyperlink{class_p_h_p_builder_a9772720d3c101d2bbb93735eb23128d8}{create\+Read}} ()
+\item 
+void \mbox{\hyperlink{class_p_h_p_builder_a3dab69543124c031656e0d64995a0341}{create\+Read\+One}} ()
+\item 
+void \mbox{\hyperlink{class_p_h_p_builder_a5ffe742a236cb926223c6ef9da14814e}{create\+Read\+Paging}} ()
+\item 
+void \mbox{\hyperlink{class_p_h_p_builder_a9e14b9a5fda86495e3692226f1a63ebe}{create\+Count}} ()
+\item 
+void \mbox{\hyperlink{class_p_h_p_builder_a885ad43ad5bef6d5fff698432d1f337c}{create\+Insert}} ()
+\item 
+void \mbox{\hyperlink{class_p_h_p_builder_a1489dff764121ac3c992441044cceec3}{create\+Update}} ()
+\item 
+void \mbox{\hyperlink{class_p_h_p_builder_a24c7483b8053b85cfce6e7f34d902f9c}{create\+Remove}} ()
+\item 
+std\+::string \mbox{\hyperlink{class_p_h_p_builder_a00aff9a97c1811e6819b3091483cece9}{string\+To\+Lower}} (std\+::string str)
+\item 
+void \mbox{\hyperlink{class_p_h_p_builder_ad17409832cc7bea0f80fe7387f75c2fc}{closing}} ()
+\item 
+void \mbox{\hyperlink{class_p_h_p_builder_ae0ea2e8fc84b6afa44fce4e1aa63f60c}{create\+Class\+File}} ()
+\item 
+void \mbox{\hyperlink{class_p_h_p_builder_a690d56e99df23e5357ebd66a0f5ec4ca}{opening}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_p_h_p_builder_acce2389633a33e65583b2e7d3433d23b}\label{class_p_h_p_builder_acce2389633a33e65583b2e7d3433d23b}} 
+\index{PHPBuilder@{PHPBuilder}!PHPBuilder@{PHPBuilder}}
+\index{PHPBuilder@{PHPBuilder}!PHPBuilder@{PHPBuilder}}
+\doxysubsubsection{\texorpdfstring{PHPBuilder()}{PHPBuilder()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily PHPBuilder\+::\+PHPBuilder (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Default constructor \mbox{\Hypertarget{class_p_h_p_builder_a0350a1007d4a54164300049d14dfd5b9}\label{class_p_h_p_builder_a0350a1007d4a54164300049d14dfd5b9}} 
+\index{PHPBuilder@{PHPBuilder}!PHPBuilder@{PHPBuilder}}
+\index{PHPBuilder@{PHPBuilder}!PHPBuilder@{PHPBuilder}}
+\doxysubsubsection{\texorpdfstring{PHPBuilder()}{PHPBuilder()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily PHPBuilder\+::\+PHPBuilder (\begin{DoxyParamCaption}\item[{std\+::string}]{class\+Name,  }\item[{std\+::vector$<$ std\+::string $>$}]{Fields,  }\item[{std\+::string}]{table\+Name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Constructor that takes a class Name, vector of fields and name of table. Sets the properties and creates the out output fille handler. 
+\begin{DoxyParams}{Parameters}
+{\em class\+Name} & a string argument. \\
+\hline
+{\em Fields} & a vector of strings. \\
+\hline
+{\em table\+Name} & a string argument \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_p_h_p_builder_ad9e8fb9709dbeaa03b92578dc831648f}\label{class_p_h_p_builder_ad9e8fb9709dbeaa03b92578dc831648f}} 
+\index{PHPBuilder@{PHPBuilder}!checkIfLineIsTooLong@{checkIfLineIsTooLong}}
+\index{checkIfLineIsTooLong@{checkIfLineIsTooLong}!PHPBuilder@{PHPBuilder}}
+\doxysubsubsection{\texorpdfstring{checkIfLineIsTooLong()}{checkIfLineIsTooLong()}}
+{\footnotesize\ttfamily std\+::vector$<$ std\+::string $>$ PHPBuilder\+::check\+If\+Line\+Is\+Too\+Long (\begin{DoxyParamCaption}\item[{std\+::string}]{line }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Function that breaks a string with more than 70 characters into a vector of lines. If character 70 is not a space character, it is split at the first character before 70 that is a space. \begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_p_h_p_builder_ad17409832cc7bea0f80fe7387f75c2fc}\label{class_p_h_p_builder_ad17409832cc7bea0f80fe7387f75c2fc}} 
+\index{PHPBuilder@{PHPBuilder}!closing@{closing}}
+\index{closing@{closing}!PHPBuilder@{PHPBuilder}}
+\doxysubsubsection{\texorpdfstring{closing()}{closing()}}
+{\footnotesize\ttfamily void PHPBuilder\+::closing (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Function that writes the closing php bracket Writes the closing class bracket and php bracket. \begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_p_h_p_builder_a4959f935d0d88559082567ae80c69bdf}\label{class_p_h_p_builder_a4959f935d0d88559082567ae80c69bdf}} 
+\index{PHPBuilder@{PHPBuilder}!createBindings@{createBindings}}
+\index{createBindings@{createBindings}!PHPBuilder@{PHPBuilder}}
+\doxysubsubsection{\texorpdfstring{createBindings()}{createBindings()}}
+{\footnotesize\ttfamily void PHPBuilder\+::create\+Bindings (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Function that writes bindings for parameters in prepared PHP statments Function that loops through fields and writes bindings for parameters in prepared PHP statments \begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_p_h_p_builder_a0311d9ddc7fb36c323cf099fc9e3ed15}\label{class_p_h_p_builder_a0311d9ddc7fb36c323cf099fc9e3ed15}} 
+\index{PHPBuilder@{PHPBuilder}!createCheckIfExists@{createCheckIfExists}}
+\index{createCheckIfExists@{createCheckIfExists}!PHPBuilder@{PHPBuilder}}
+\doxysubsubsection{\texorpdfstring{createCheckIfExists()}{createCheckIfExists()}}
+{\footnotesize\ttfamily void PHPBuilder\+::create\+Check\+If\+Exists (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Writes a PHP function to check if a record exists Writes comments and Check\+If\+Exists function for the output PHP file \begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_p_h_p_builder_aa3b78fac38a7486e545938c7ac4bab69}\label{class_p_h_p_builder_aa3b78fac38a7486e545938c7ac4bab69}} 
+\index{PHPBuilder@{PHPBuilder}!createClassComment@{createClassComment}}
+\index{createClassComment@{createClassComment}!PHPBuilder@{PHPBuilder}}
+\doxysubsubsection{\texorpdfstring{createClassComment()}{createClassComment()}}
+{\footnotesize\ttfamily void PHPBuilder\+::create\+Class\+Comment (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Function that writes a comment for a class Writes a comment to be inserted above a class \begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_p_h_p_builder_ae0ea2e8fc84b6afa44fce4e1aa63f60c}\label{class_p_h_p_builder_ae0ea2e8fc84b6afa44fce4e1aa63f60c}} 
+\index{PHPBuilder@{PHPBuilder}!createClassFile@{createClassFile}}
+\index{createClassFile@{createClassFile}!PHPBuilder@{PHPBuilder}}
+\doxysubsubsection{\texorpdfstring{createClassFile()}{createClassFile()}}
+{\footnotesize\ttfamily void PHPBuilder\+::create\+Class\+File (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Function that creates a PHP class with the built in CRUD methods Function creates a php class file with the class name, properties, constructor, read, read\+One, read\+Paging, count, check\+If\+Exists, get\+If\+Exists, insert, update, and remove functions. \begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_p_h_p_builder_a350bae2490e40eb412b8782e2f94dbde}\label{class_p_h_p_builder_a350bae2490e40eb412b8782e2f94dbde}} 
+\index{PHPBuilder@{PHPBuilder}!createConstructor@{createConstructor}}
+\index{createConstructor@{createConstructor}!PHPBuilder@{PHPBuilder}}
+\doxysubsubsection{\texorpdfstring{createConstructor()}{createConstructor()}}
+{\footnotesize\ttfamily void PHPBuilder\+::create\+Constructor (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Writes onstructor for the PHP file Writes comments and constructor function for PHP file \begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_p_h_p_builder_a9e14b9a5fda86495e3692226f1a63ebe}\label{class_p_h_p_builder_a9e14b9a5fda86495e3692226f1a63ebe}} 
+\index{PHPBuilder@{PHPBuilder}!createCount@{createCount}}
+\index{createCount@{createCount}!PHPBuilder@{PHPBuilder}}
+\doxysubsubsection{\texorpdfstring{createCount()}{createCount()}}
+{\footnotesize\ttfamily void PHPBuilder\+::create\+Count (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Function that writes a count function to retrieve the total number of records in the class\textquotesingle{}s table Writes comments and function to retrieves the total number of records from the class\textquotesingle{}s table ~\newline
+ \begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_p_h_p_builder_a90a8dbefc99187fc93967fcdf83cc89a}\label{class_p_h_p_builder_a90a8dbefc99187fc93967fcdf83cc89a}} 
+\index{PHPBuilder@{PHPBuilder}!createGetIfExists@{createGetIfExists}}
+\index{createGetIfExists@{createGetIfExists}!PHPBuilder@{PHPBuilder}}
+\doxysubsubsection{\texorpdfstring{createGetIfExists()}{createGetIfExists()}}
+{\footnotesize\ttfamily void PHPBuilder\+::create\+Get\+If\+Exists (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Writes a PHP function to check if a record exists and retrieves the fields Writes comments and Get\+If\+Exists function for the output PHP file \begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_p_h_p_builder_a885ad43ad5bef6d5fff698432d1f337c}\label{class_p_h_p_builder_a885ad43ad5bef6d5fff698432d1f337c}} 
+\index{PHPBuilder@{PHPBuilder}!createInsert@{createInsert}}
+\index{createInsert@{createInsert}!PHPBuilder@{PHPBuilder}}
+\doxysubsubsection{\texorpdfstring{createInsert()}{createInsert()}}
+{\footnotesize\ttfamily void PHPBuilder\+::create\+Insert (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Function that writes an insert function to insert a record into the class\textquotesingle{}s table Writes comments and function to insert the a record into the class\textquotesingle{}s table using the properties set in the class. \begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_p_h_p_builder_ac2ee3f5efe54558a31a7d5eddcd4dd89}\label{class_p_h_p_builder_ac2ee3f5efe54558a31a7d5eddcd4dd89}} 
+\index{PHPBuilder@{PHPBuilder}!createMethodComment@{createMethodComment}}
+\index{createMethodComment@{createMethodComment}!PHPBuilder@{PHPBuilder}}
+\doxysubsubsection{\texorpdfstring{createMethodComment()}{createMethodComment()}}
+{\footnotesize\ttfamily void PHPBuilder\+::create\+Method\+Comment (\begin{DoxyParamCaption}\item[{std\+::string}]{Description,  }\item[{std\+::string}]{Detailed\+Description,  }\item[{std\+::vector$<$ std\+::pair$<$ std\+::string, std\+::string $>$ $>$}]{Params,  }\item[{std\+::string}]{return\+Type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Function that writes a comment for a method Writes a comment to be inserted above a class method with the description, detailed description, parameters and return type. \begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_p_h_p_builder_a9772720d3c101d2bbb93735eb23128d8}\label{class_p_h_p_builder_a9772720d3c101d2bbb93735eb23128d8}} 
+\index{PHPBuilder@{PHPBuilder}!createRead@{createRead}}
+\index{createRead@{createRead}!PHPBuilder@{PHPBuilder}}
+\doxysubsubsection{\texorpdfstring{createRead()}{createRead()}}
+{\footnotesize\ttfamily void PHPBuilder\+::create\+Read (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Function that writes a read function to retrieve all records Writes comments and function to read all records from the class\textquotesingle{}s table \begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_p_h_p_builder_a3dab69543124c031656e0d64995a0341}\label{class_p_h_p_builder_a3dab69543124c031656e0d64995a0341}} 
+\index{PHPBuilder@{PHPBuilder}!createReadOne@{createReadOne}}
+\index{createReadOne@{createReadOne}!PHPBuilder@{PHPBuilder}}
+\doxysubsubsection{\texorpdfstring{createReadOne()}{createReadOne()}}
+{\footnotesize\ttfamily void PHPBuilder\+::create\+Read\+One (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Function that writes a read one function to retrieve a record by an ID Writes comments and function to read one record from the class\textquotesingle{}s table with the class\textquotesingle{}s id. \begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_p_h_p_builder_a5ffe742a236cb926223c6ef9da14814e}\label{class_p_h_p_builder_a5ffe742a236cb926223c6ef9da14814e}} 
+\index{PHPBuilder@{PHPBuilder}!createReadPaging@{createReadPaging}}
+\index{createReadPaging@{createReadPaging}!PHPBuilder@{PHPBuilder}}
+\doxysubsubsection{\texorpdfstring{createReadPaging()}{createReadPaging()}}
+{\footnotesize\ttfamily void PHPBuilder\+::create\+Read\+Paging (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Function that writes a read paging function to retrieve records in certain amounts Writes comments and function to read specific amounts of retrieved records from the class\textquotesingle{}s table ~\newline
+ \begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_p_h_p_builder_a24c7483b8053b85cfce6e7f34d902f9c}\label{class_p_h_p_builder_a24c7483b8053b85cfce6e7f34d902f9c}} 
+\index{PHPBuilder@{PHPBuilder}!createRemove@{createRemove}}
+\index{createRemove@{createRemove}!PHPBuilder@{PHPBuilder}}
+\doxysubsubsection{\texorpdfstring{createRemove()}{createRemove()}}
+{\footnotesize\ttfamily void PHPBuilder\+::create\+Remove (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Function that writes a remove function to remove a record in the class\textquotesingle{}s table. Writes comments and function to remove the a record at a certain ID in the class\textquotesingle{}s table. \begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_p_h_p_builder_a1489dff764121ac3c992441044cceec3}\label{class_p_h_p_builder_a1489dff764121ac3c992441044cceec3}} 
+\index{PHPBuilder@{PHPBuilder}!createUpdate@{createUpdate}}
+\index{createUpdate@{createUpdate}!PHPBuilder@{PHPBuilder}}
+\doxysubsubsection{\texorpdfstring{createUpdate()}{createUpdate()}}
+{\footnotesize\ttfamily void PHPBuilder\+::create\+Update (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Function that writes an update function to update a record in the class\textquotesingle{}s table Writes comments and function to update the a record at a certain ID into the class\textquotesingle{}s table using the properties set in the class. \begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_p_h_p_builder_a28cd22477a9bba13d7f89fa7fde5efc2}\label{class_p_h_p_builder_a28cd22477a9bba13d7f89fa7fde5efc2}} 
+\index{PHPBuilder@{PHPBuilder}!getClassName@{getClassName}}
+\index{getClassName@{getClassName}!PHPBuilder@{PHPBuilder}}
+\doxysubsubsection{\texorpdfstring{getClassName()}{getClassName()}}
+{\footnotesize\ttfamily std\+::string PHPBuilder\+::get\+Class\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Getter Retrieves the name of the class \begin{DoxyReturn}{Returns}
+string 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_p_h_p_builder_a44e4cffba56befd6b3d1acdd600d338b}\label{class_p_h_p_builder_a44e4cffba56befd6b3d1acdd600d338b}} 
+\index{PHPBuilder@{PHPBuilder}!getFields@{getFields}}
+\index{getFields@{getFields}!PHPBuilder@{PHPBuilder}}
+\doxysubsubsection{\texorpdfstring{getFields()}{getFields()}}
+{\footnotesize\ttfamily std\+::vector$<$ std\+::string $>$ PHPBuilder\+::get\+Fields (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Getter Retrieves the fields \begin{DoxyReturn}{Returns}
+vector of strings 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_p_h_p_builder_ac4cf9a3ce2ee4e60486543f97c52478c}\label{class_p_h_p_builder_ac4cf9a3ce2ee4e60486543f97c52478c}} 
+\index{PHPBuilder@{PHPBuilder}!getFileName@{getFileName}}
+\index{getFileName@{getFileName}!PHPBuilder@{PHPBuilder}}
+\doxysubsubsection{\texorpdfstring{getFileName()}{getFileName()}}
+{\footnotesize\ttfamily std\+::string PHPBuilder\+::get\+File\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Getter Retrieves the name of the PHP output file \begin{DoxyReturn}{Returns}
+string 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_p_h_p_builder_a20c75367d7449f53d657115b598dce5c}\label{class_p_h_p_builder_a20c75367d7449f53d657115b598dce5c}} 
+\index{PHPBuilder@{PHPBuilder}!getTableName@{getTableName}}
+\index{getTableName@{getTableName}!PHPBuilder@{PHPBuilder}}
+\doxysubsubsection{\texorpdfstring{getTableName()}{getTableName()}}
+{\footnotesize\ttfamily std\+::string PHPBuilder\+::get\+Table\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Getter Retrieves the name of the table \begin{DoxyReturn}{Returns}
+string 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_p_h_p_builder_a690d56e99df23e5357ebd66a0f5ec4ca}\label{class_p_h_p_builder_a690d56e99df23e5357ebd66a0f5ec4ca}} 
+\index{PHPBuilder@{PHPBuilder}!opening@{opening}}
+\index{opening@{opening}!PHPBuilder@{PHPBuilder}}
+\doxysubsubsection{\texorpdfstring{opening()}{opening()}}
+{\footnotesize\ttfamily void PHPBuilder\+::opening (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Function that creates the class name and properties portion of a class. Writes the opening php brackets, class name and loops through the fields vector to generate properties in the class. \begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_p_h_p_builder_ad4357c586917b0600d9b3acc8055db49}\label{class_p_h_p_builder_ad4357c586917b0600d9b3acc8055db49}} 
+\index{PHPBuilder@{PHPBuilder}!sanitizeFields@{sanitizeFields}}
+\index{sanitizeFields@{sanitizeFields}!PHPBuilder@{PHPBuilder}}
+\doxysubsubsection{\texorpdfstring{sanitizeFields()}{sanitizeFields()}}
+{\footnotesize\ttfamily void PHPBuilder\+::sanitize\+Fields (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Function that writes functions to sanitize fields used in prepared sql queries Loops through fields and assigns each field the fields value after sanitizing functions are used. \begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_p_h_p_builder_ae368f8bb88c0f0ad9c6f21967e051d35}\label{class_p_h_p_builder_ae368f8bb88c0f0ad9c6f21967e051d35}} 
+\index{PHPBuilder@{PHPBuilder}!setObjectPropertiesFromQuery@{setObjectPropertiesFromQuery}}
+\index{setObjectPropertiesFromQuery@{setObjectPropertiesFromQuery}!PHPBuilder@{PHPBuilder}}
+\doxysubsubsection{\texorpdfstring{setObjectPropertiesFromQuery()}{setObjectPropertiesFromQuery()}}
+{\footnotesize\ttfamily void PHPBuilder\+::set\+Object\+Properties\+From\+Query (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Function that assigns properties from query results Loops through fields and sets the class properties to the row results of a sql squery \begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_p_h_p_builder_a00aff9a97c1811e6819b3091483cece9}\label{class_p_h_p_builder_a00aff9a97c1811e6819b3091483cece9}} 
+\index{PHPBuilder@{PHPBuilder}!stringToLower@{stringToLower}}
+\index{stringToLower@{stringToLower}!PHPBuilder@{PHPBuilder}}
+\doxysubsubsection{\texorpdfstring{stringToLower()}{stringToLower()}}
+{\footnotesize\ttfamily std\+::string PHPBuilder\+::string\+To\+Lower (\begin{DoxyParamCaption}\item[{std\+::string}]{str }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Function that converts a string to lower case Taken from //http\+://cplusplus.com/forum/beginner/218745/ Loops through characters in string and converts each character to lower. 
+\begin{DoxyParams}{Parameters}
+{\em str} & string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+string 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{_p_h_p_builder_8h}{PHPBuilder.\+h}}\end{DoxyCompactItemize}
