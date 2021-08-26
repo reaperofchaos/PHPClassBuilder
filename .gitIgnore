@@ -1,3 +1,4 @@
 build
 .vscode
 objs
+.DS_Store
